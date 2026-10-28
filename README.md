@@ -2,7 +2,7 @@
 
 **A learned race strategy wrapped around vehicle_gym’s nonlinear motion planner.**
 
-[Interactive research page](https://rudolfreiter.github.io/hilepp/) · [ECC 2023 paper](https://ieeexplore.ieee.org/document/10178143) · [Author manuscript](https://publications.syscop.de/Reiter2023.pdf) · [vehicle_gym](https://github.com/RudolfReiter/vehicle_gym)
+[Interactive research page](https://rudolfreiter.github.io/hilepp-recreated/) · [ECC 2023 paper](https://ieeexplore.ieee.org/document/10178143) · [Author manuscript](https://publications.syscop.de/Reiter2023.pdf) · [vehicle_gym](https://github.com/RudolfReiter/vehicle_gym)
 
 ![Recorded learned policy driving scene](docs/assets/driving-scene.png)
 
@@ -32,6 +32,8 @@ Curvature + ego state + opponents
                   ▼
           Original vehicle dynamics
 ```
+
+The GitHub repository is named `hilepp-recreated`; the Python import remains `hilepp`. The commands below use the existing local folder `hilepp/`.
 
 ## Install and replay
 
