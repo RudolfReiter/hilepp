@@ -1,7 +1,24 @@
 """Inference and deployment wrapper, independent of the training framework."""
 
 from pathlib import Path
+from dataclasses import replace
 import numpy as np
+
+
+def limit_lateral_reference(reference, measured_lateral, max_offset=1.0):
+    """Limit the requested lateral offset from the measured position.
+
+    This optional reference generator moderates abrupt strategic commands. It
+    neither replaces the neural policy nor establishes recursive feasibility.
+    """
+    if not np.isfinite(max_offset) or max_offset <= 0 or not np.isfinite(measured_lateral):
+        raise ValueError("Reference limit must be positive and the measurement finite")
+    return replace(
+        reference,
+        lateral=float(
+            np.clip(reference.lateral, measured_lateral - max_offset, measured_lateral + max_offset)
+        ),
+    )
 
 
 class NumpyPolicy:
@@ -40,4 +57,4 @@ class HierarchicalPolicy:
         env = self.environment
         action = np.asarray(self.policy(env.world.observation()))
         reference = env.expand_action(action)
-        return env.world.planner.plan(env.world.state, env.world.opponents[:, [0, 1, 3]], reference)
+        return env.world.planner.plan(env.world.state, env.world.opponents, reference)

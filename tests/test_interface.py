@@ -2,6 +2,19 @@ import numpy as np
 import pytest
 from hilepp.interface import HileppEnv
 
+from hilepp.policy import limit_lateral_reference
+from vehiclegym.planner.references import FrenetReference
+
+
+def test_lateral_reference_limit_preserves_policy_direction_and_other_parameters():
+    raw = FrenetReference(speed=31, lateral=-4, speed_weight=2, lateral_weight=3)
+    limited = limit_lateral_reference(raw, measured_lateral=0.5)
+    assert limited == FrenetReference(speed=31, lateral=-0.5, speed_weight=2, lateral_weight=3)
+    assert raw.lateral == -4
+    assert limit_lateral_reference(raw, measured_lateral=-4.2) == raw
+    with pytest.raises(ValueError):
+        limit_lateral_reference(raw, 0, max_offset=0)
+
 
 def test_hilepp_i_maps_to_physical_references():
     env = HileppEnv("I")

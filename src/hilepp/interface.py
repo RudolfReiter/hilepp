@@ -10,7 +10,7 @@ class HileppEnv:
 
     observation_size = 22
 
-    def __init__(self, variant="I", max_steps=80):
+    def __init__(self, variant="I", max_steps=96):
         if variant not in ("I", "II"):
             raise ValueError("variant must be I or II")
         self.variant = variant
@@ -37,7 +37,7 @@ class HileppEnv:
         return self.world.step(self.expand_action(action))
 
 
-def gymnasium_env(variant="I", max_steps=80):
+def gymnasium_env(variant="I", max_steps=96):
     """Optional real Gymnasium adapter for Stable-Baselines3 and other clients."""
     import gymnasium as gym
 

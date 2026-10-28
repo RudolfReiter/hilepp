@@ -1,0 +1,810 @@
+{
+  "algorithm": "SAC with auxiliary defensive reward",
+  "seed": 17,
+  "variant": "I",
+  "environment_version": "interactive-v2",
+  "warm_start": "initial.npz contains the copied general SAC actor before specialization",
+  "training_task": "blocking",
+  "auxiliary_reward": "0.75 * lane_coverage + 0.75 * held_up_count",
+  "selection_reward": "unmodified progress/rank return",
+  "validation_seeds": [
+    8001
+  ],
+  "requested_steps": 6000,
+  "episode_limit_steps": 96,
+  "selected_step": 5000,
+  "episodes": [
+    {
+      "step": 96,
+      "seed": 5186,
+      "return": 187.16507111634215,
+      "training_return": 209.64346457139263,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 192,
+      "seed": 5915,
+      "return": 213.73779052354527,
+      "training_return": 258.09459069663797,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 221,
+      "seed": 751,
+      "return": 57.803605268799345,
+      "training_return": 74.7985263824975,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 270,
+      "seed": 1126,
+      "return": 90.43752869354103,
+      "training_return": 116.94779027759417,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 297,
+      "seed": 3205,
+      "return": 60.71013715645434,
+      "training_return": 70.0116200393426,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 344,
+      "seed": 3904,
+      "return": 78.61610879226477,
+      "training_return": 89.1341514499935,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 440,
+      "seed": 5331,
+      "return": 102.53236507893332,
+      "training_return": 117.02402287520603,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 476,
+      "seed": 2576,
+      "return": 75.98744112498915,
+      "training_return": 86.63247860949316,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 509,
+      "seed": 250,
+      "return": 72.50022005668372,
+      "training_return": 82.38313782850277,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 605,
+      "seed": 1504,
+      "return": 122.65577199936632,
+      "training_return": 160.00600034565485,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 701,
+      "seed": 3193,
+      "return": 128.85855888810408,
+      "training_return": 158.49065212673946,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 797,
+      "seed": 2700,
+      "return": 101.13363366274564,
+      "training_return": 111.49036610999627,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 893,
+      "seed": 6406,
+      "return": 163.9971874306216,
+      "training_return": 216.2684014268631,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 989,
+      "seed": 2997,
+      "return": 157.2073022495255,
+      "training_return": 174.9393561400318,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1085,
+      "seed": 4466,
+      "return": 131.02307274329502,
+      "training_return": 151.7524984928636,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1142,
+      "seed": 4279,
+      "return": 148.5691890322158,
+      "training_return": 187.51466320821294,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1238,
+      "seed": 637,
+      "return": 126.18558615635261,
+      "training_return": 140.68454834880467,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1282,
+      "seed": 5154,
+      "return": 112.45822091766402,
+      "training_return": 144.02607139636592,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1308,
+      "seed": 349,
+      "return": 56.740524479240904,
+      "training_return": 66.54851135896382,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1404,
+      "seed": 107,
+      "return": 171.81824628878766,
+      "training_return": 189.28758591816305,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1500,
+      "seed": 4097,
+      "return": 175.80163489025614,
+      "training_return": 193.03247278090387,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1596,
+      "seed": 1778,
+      "return": 154.08070116692565,
+      "training_return": 166.63687013048488,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1634,
+      "seed": 2562,
+      "return": 96.5955844989809,
+      "training_return": 118.30658478728921,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1646,
+      "seed": 4229,
+      "return": 24.708160584195234,
+      "training_return": 25.268633997354144,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1742,
+      "seed": 1094,
+      "return": 172.87717203964306,
+      "training_return": 189.9299118568879,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 1782,
+      "seed": 586,
+      "return": 104.02725933404996,
+      "training_return": 121.15435715973467,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1821,
+      "seed": 4905,
+      "return": 84.7621088077055,
+      "training_return": 97.73658252822219,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1869,
+      "seed": 6984,
+      "return": 107.21488772340885,
+      "training_return": 120.24930094372911,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 1965,
+      "seed": 4780,
+      "return": 190.8724152934379,
+      "training_return": 226.23591392490405,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2014,
+      "seed": 5826,
+      "return": 109.3847322171672,
+      "training_return": 125.7726508864269,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2029,
+      "seed": 2901,
+      "return": 34.18270848055499,
+      "training_return": 37.705416071341645,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2046,
+      "seed": 257,
+      "return": 40.488922956474475,
+      "training_return": 48.81602632849548,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2142,
+      "seed": 4553,
+      "return": 218.75068304614135,
+      "training_return": 292.3026153848432,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2238,
+      "seed": 3972,
+      "return": 208.9164061067364,
+      "training_return": 248.960927743908,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2334,
+      "seed": 5242,
+      "return": 254.8489472796459,
+      "training_return": 320.8809706681234,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2355,
+      "seed": 4265,
+      "return": 53.144465503589224,
+      "training_return": 61.448829958328076,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2408,
+      "seed": 3408,
+      "return": 116.9720399727313,
+      "training_return": 133.600998221522,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2504,
+      "seed": 48,
+      "return": 222.72839286226343,
+      "training_return": 262.95930149381445,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2519,
+      "seed": 4888,
+      "return": 34.17812662221407,
+      "training_return": 36.36687914252879,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2552,
+      "seed": 1253,
+      "return": 90.94671254014976,
+      "training_return": 110.65088640065969,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2648,
+      "seed": 3358,
+      "return": 239.88944474498308,
+      "training_return": 331.68826745524285,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2744,
+      "seed": 1154,
+      "return": 302.63027248603186,
+      "training_return": 410.1310995481885,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2748,
+      "seed": 4035,
+      "return": -0.539161073395281,
+      "training_return": 0.050036803663930485,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2793,
+      "seed": 3233,
+      "return": 128.81732551368492,
+      "training_return": 154.7304714178881,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2824,
+      "seed": 2869,
+      "return": 84.57051939793477,
+      "training_return": 101.95777201459525,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 2920,
+      "seed": 3969,
+      "return": 204.804249947885,
+      "training_return": 252.08500850379193,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 2952,
+      "seed": 989,
+      "return": 87.76357204800237,
+      "training_return": 103.18469611161427,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3048,
+      "seed": 3163,
+      "return": 223.94377182090994,
+      "training_return": 263.0768469105017,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 3070,
+      "seed": 5048,
+      "return": 56.30264842610329,
+      "training_return": 67.11453983937511,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3120,
+      "seed": 6438,
+      "return": 112.66651003953451,
+      "training_return": 132.594296884792,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3174,
+      "seed": 1552,
+      "return": 120.26769066328964,
+      "training_return": 134.61439507678213,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3270,
+      "seed": 5704,
+      "return": 197.85154739654934,
+      "training_return": 243.5776529011079,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 3327,
+      "seed": 2398,
+      "return": 127.7058743328399,
+      "training_return": 144.15950359711903,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3339,
+      "seed": 2808,
+      "return": 24.727659477432184,
+      "training_return": 32.22932187112,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3362,
+      "seed": 5656,
+      "return": 59.43477491804815,
+      "training_return": 72.46061868203054,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3411,
+      "seed": 1422,
+      "return": 139.38846972119725,
+      "training_return": 168.69041754232939,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3507,
+      "seed": 1715,
+      "return": 224.97177392363875,
+      "training_return": 275.5784885952218,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 3566,
+      "seed": 2508,
+      "return": 134.98658395732465,
+      "training_return": 149.60349289148164,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3615,
+      "seed": 4519,
+      "return": 109.46350088222987,
+      "training_return": 123.50263706172868,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3667,
+      "seed": 6034,
+      "return": 116.99501957682588,
+      "training_return": 142.0403652253252,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3725,
+      "seed": 1888,
+      "return": 144.85008800585763,
+      "training_return": 165.8441647736953,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3821,
+      "seed": 2441,
+      "return": 171.58365230638773,
+      "training_return": 191.30495045767503,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 3874,
+      "seed": 6003,
+      "return": 117.06478443142525,
+      "training_return": 139.5976404076793,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 3970,
+      "seed": 6937,
+      "return": 186.912804984019,
+      "training_return": 212.87774391286274,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4002,
+      "seed": 5465,
+      "return": 87.7778096015405,
+      "training_return": 96.94665539602605,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4032,
+      "seed": 3960,
+      "return": 81.54479590516783,
+      "training_return": 90.95319847925299,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4058,
+      "seed": 5662,
+      "return": 68.89475530170819,
+      "training_return": 77.4198472518934,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4116,
+      "seed": 1657,
+      "return": 169.93199975424838,
+      "training_return": 208.50752585396626,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4212,
+      "seed": 1107,
+      "return": 188.71969244179147,
+      "training_return": 228.574666364885,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4231,
+      "seed": 4610,
+      "return": 46.784388643942364,
+      "training_return": 53.33097718662137,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4327,
+      "seed": 1742,
+      "return": 176.05352500806026,
+      "training_return": 180.39368484276807,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4423,
+      "seed": 4621,
+      "return": 189.13099390056783,
+      "training_return": 214.2075839045126,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4446,
+      "seed": 1590,
+      "return": 59.45525935732651,
+      "training_return": 71.79799778591298,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4542,
+      "seed": 3602,
+      "return": 171.89294719144974,
+      "training_return": 188.26639453249996,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4566,
+      "seed": 5736,
+      "return": 62.57225358807389,
+      "training_return": 68.66139627007922,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4653,
+      "seed": 1953,
+      "return": 157.51493807380098,
+      "training_return": 169.00816190008615,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4749,
+      "seed": 3916,
+      "return": 182.08970198495962,
+      "training_return": 192.87813691192832,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4772,
+      "seed": 4409,
+      "return": 59.42613873617972,
+      "training_return": 71.0338298554568,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 4868,
+      "seed": 1535,
+      "return": 174.91017549981234,
+      "training_return": 205.08430736573737,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 4964,
+      "seed": 3354,
+      "return": 188.1455427396485,
+      "training_return": 215.06633182110377,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5010,
+      "seed": 5167,
+      "return": 104.10660130122838,
+      "training_return": 119.56757761397,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5106,
+      "seed": 4573,
+      "return": 189.0091573737681,
+      "training_return": 213.83031478274205,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5202,
+      "seed": 4693,
+      "return": 182.98345715587467,
+      "training_return": 208.70726765570623,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5247,
+      "seed": 3795,
+      "return": 101.94509623904221,
+      "training_return": 118.36319389572739,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5343,
+      "seed": 6473,
+      "return": 216.0663079766892,
+      "training_return": 256.64248733917685,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5401,
+      "seed": 848,
+      "return": 128.95808287639883,
+      "training_return": 147.4351539798659,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5497,
+      "seed": 3503,
+      "return": 184.99718191287403,
+      "training_return": 207.8589111025081,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5593,
+      "seed": 6361,
+      "return": 257.05715557396314,
+      "training_return": 298.1016507709612,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5689,
+      "seed": 2954,
+      "return": 202.1229716393258,
+      "training_return": 236.0246072042636,
+      "solver_failed": false,
+      "collision": false
+    },
+    {
+      "step": 5706,
+      "seed": 120,
+      "return": 40.52027085457429,
+      "training_return": 45.27847198798943,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5769,
+      "seed": 6880,
+      "return": 138.73691253309272,
+      "training_return": 162.18972577900095,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5825,
+      "seed": 2175,
+      "return": 145.64938063014878,
+      "training_return": 173.34622292815942,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5872,
+      "seed": 387,
+      "return": 135.1710093960603,
+      "training_return": 156.39965108558843,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5888,
+      "seed": 1199,
+      "return": 37.37293263365848,
+      "training_return": 42.83681403006852,
+      "solver_failed": true,
+      "collision": false
+    },
+    {
+      "step": 5969,
+      "seed": 6692,
+      "return": 182.63023230193826,
+      "training_return": 223.23522967349564,
+      "solver_failed": true,
+      "collision": false
+    }
+  ],
+  "validation": [
+    {
+      "step": 0,
+      "return": 187.25760538814836
+    },
+    {
+      "step": 1000,
+      "return": 183.0830457683575
+    },
+    {
+      "step": 2000,
+      "return": 185.14640491049403
+    },
+    {
+      "step": 3000,
+      "return": 100.94764239210971
+    },
+    {
+      "step": 4000,
+      "return": 187.16020034434445
+    },
+    {
+      "step": 5000,
+      "return": 195.19538559220854
+    },
+    {
+      "step": 6000,
+      "return": 110.62268306761116
+    }
+  ],
+  "completed_steps": 6000,
+  "elapsed_s": 944.8786992289824
+}
