@@ -1,0 +1,2 @@
+# Install after the improved vehicle_gym commit is pushed.
+vehiclegym @ git+https://github.com/RudolfReiter/vehicle_gym.git@0817614fbc82bd7c09f577c332f4afa15b1a8028

@@ -1,0 +1,33 @@
+name: Test recreated HILEPP policy wrapper
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: project
+      - uses: actions/checkout@v4
+        with:
+          repository: RudolfReiter/vehicle_gym
+          ref: 0817614fbc82bd7c09f577c332f4afa15b1a8028
+          path: foundation
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -e ./foundation -e './project[train,dev]'
+      - run: python -m pytest
+        working-directory: project
+      - run: ruff check src tests scripts && ruff format --check src tests scripts
+        working-directory: project
+      - run: python -m build --wheel
+        working-directory: project
+      - run: node scripts/check_interactions.mjs
+        working-directory: project
+      - run: python scripts/build_site.py && python scripts/check_data.py
+        working-directory: project

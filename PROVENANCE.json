@@ -1,0 +1,80 @@
+{
+  "project": "HILEPP recreated",
+  "original_training_repository": false,
+  "original_paper_checkpoint": false,
+  "paper": {
+    "doi": "10.23919/ECC57647.2023.10178143",
+    "venue": "ECC 2023"
+  },
+  "foundation": {
+    "repository": "https://github.com/RudolfReiter/vehicle_gym",
+    "commit": "0817614fbc82bd7c09f577c332f4afa15b1a8028",
+    "package_version": "1.1.0"
+  },
+  "environment": {
+    "python": "3.9.23",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "casadi": "3.8.1",
+    "torch": "2.8.0+cu126",
+    "training_device": "cpu",
+    "threads": 1
+  },
+  "training": {
+    "steps": 4000,
+    "seed": 7,
+    "selected_step": 4000,
+    "validation_seeds": [
+      8000,
+      8001,
+      8002
+    ],
+    "elapsed_s": 490.0294030599762,
+    "checkpoint_format": "NPZ deterministic actor mean parameters; no pickle or optimizer state"
+  },
+  "evaluation": {
+    "tasks": [
+      "overtaking",
+      "blocking",
+      "mixed"
+    ],
+    "methods": [
+      "baseline",
+      "initial",
+      "learned"
+    ],
+    "seeds": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10004
+    ],
+    "episodes": 45,
+    "episode_limit_s": 16,
+    "displayed_seed": 10000
+  },
+  "validation": {
+    "unit_and_numerical_tests": 9,
+    "foundation_unit_and_numerical_tests": 17,
+    "numpy_torch_export_parity": true,
+    "playback_state_checks": true,
+    "browser_layout_checked": false,
+    "gymnasium_adapter_checked": false
+  },
+  "sha256": {
+    "src/hilepp/__init__.py": "2860be762dae2e24aadb364f5eb9ac9beeb51c78716b61b5c58dbaf91ecb0245",
+    "src/hilepp/evaluate.py": "9e44596009e18f7bd82e3e0b2bf5ded336250c556c9350325afa430b098cb8e5",
+    "src/hilepp/interface.py": "4055467d76c885168d1a70bd5c1176261295eb319c953c6a5f9281d866a48af7",
+    "src/hilepp/policy.py": "ead38788c812d1756fb929a30f15b94fc62335728abc25a8965b07a8df5ae878",
+    "src/hilepp/sac.py": "b9e96b7b8a9727c3370e8451311da05fee432f4106585bb175266a092ce07184",
+    "src/hilepp/train.py": "249bd9d71979c651e96aaa87737ea092877846e97aba1aa60a59e48aac75db5a",
+    "checkpoints/best.npz": "dffe6b01efa6de965765e56e9c86f1c73ab08a9248af26907bf27c60b52bac44",
+    "checkpoints/initial.npz": "5b4c1bb0eb3cecc0fc2d2987fad47435e3b98d755e4d2bc2798d2afdc3afeea2",
+    "checkpoints/last.npz": "dffe6b01efa6de965765e56e9c86f1c73ab08a9248af26907bf27c60b52bac44",
+    "checkpoints/training.json": "233aa32c2d298d35e725010ca898034d18e4bcb2f82e8269057fef3ef98a93d1",
+    "docs/data/evaluation.json": "460e2381366e81347992029efef6d1c8f1cbded5d74b4df502965b8d741fbc9b",
+    "docs/data/experiment.js": "a6658b8f6cabf6d4fea4e2d8e7d8d1f1d87b910420255e6c296562c0f3ea6673",
+    "docs/data/experiment.json": "7ef4b9a931c8f5db9a7710b9d4f7ee3977b956e058c5c06a082ec123ee2c05f2"
+  }
+}
