@@ -15,7 +15,7 @@ Rudolf Reiter, Jasper Hoffmann, Joschka Boedecker, Moritz Diehl.<br>
 **European Control Conference (ECC 2023)**, Bucharest, pp. 1–8.<br>
 DOI: [10.23919/ECC57647.2023.10178143](https://doi.org/10.23919/ECC57647.2023.10178143).
 
-The policy chooses speed and lateral references. A reference generator expands them into a trajectory/cost specification, and nonlinear model predictive control computes the force and steering-rate commands. The policy does not directly output throttle or steering.
+The policy chooses speed and lateral references. A reference generator expands them into a trajectory/cost specification, and nonlinear model predictive control computes the force and steering-rate commands. The policy does not directly output throttle or steering. Both the policy and MPC run every 0.25 s. Only the first MPC control is applied before measuring the new state and replanning. See [control and prediction semantics](docs/CONTROL_AND_PREDICTION.md) for the exact opponent assumptions and event definitions.
 
 ```text
 Curvature + ego state + opponents
@@ -35,7 +35,7 @@ Curvature + ego state + opponents
 
 ## Install and replay
 
-Use the **improved vehicle_gym 1.1** checkout beside this repository. The pinned foundation commit is recorded in `PROVENANCE.json`; `requirements-foundation.txt` provides a Git installation once that commit is pushed.
+Use the **improved vehicle_gym 1.2** checkout beside this repository. The pinned foundation commit is recorded in `PROVENANCE.json`; `requirements-foundation.txt` provides a Git installation once that commit is pushed.
 
 ```bash
 # Expected siblings: vehicle_gym/ and hilepp/
@@ -43,7 +43,7 @@ cd hilepp
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ../vehicle_gym -e '.[train,dev]'
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m hilepp.evaluate
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m hilepp.evaluate --defense-dir checkpoints/defense --defense-reference-limit 1.0
 python -m pytest
 python -m http.server 8000 --directory docs
 ```
@@ -56,7 +56,7 @@ For inference without PyTorch, install `pip install -e ../vehicle_gym -e .` and 
 from hilepp.interface import HileppEnv
 from hilepp.policy import NumpyPolicy, HierarchicalPolicy
 
-env = HileppEnv("I", max_steps=64)
+env = HileppEnv("I", max_steps=96)
 obs, _ = env.reset(seed=10000, options={"scenario": "overtaking"})
 policy = NumpyPolicy("checkpoints/best.npz")
 while not env.world.finished:
@@ -74,28 +74,54 @@ Any callable returning normalized actions can be supplied to `HierarchicalPolicy
 ```bash
 # Preserve the included checkpoint; train into a separate directory.
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m hilepp.train \
-  --steps 4000 --seed 7 --variant I --output checkpoints/new-run
+  --steps 18000 --seed 7 --variant I --output checkpoints/new-run
 python -m hilepp.evaluate --checkpoint-dir checkpoints/new-run --output artifacts/new-run
 
 # HILEPP-II interface is implemented, but no trained II checkpoint is included.
-python -m hilepp.train --variant II --steps 4000 --output checkpoints/variant-ii
+python -m hilepp.train --variant II --steps 18000 --output checkpoints/variant-ii
 ```
 
 SAC uses a squashed Gaussian actor, twin Q networks, target critics, fixed entropy coefficient 0.1, learning rate 3e-4, discount 0.99, Polyak coefficient 0.005, two hidden layers of width 64, batch size 128, and 256 random warmup steps. No differentiation through the planner is used. Time limits bootstrap; terminal failures do not. Checkpoints contain only the deterministic actor’s mean parameters, not optimizer/replay state; they are inference exports, not resumable training snapshots.
 
-Training samples episode seeds 0–6999. Validation seeds 8000–8002 select checkpoints every 1000 interactions. Held-out seeds 10000–10004 are evaluated only after selection, on each of three tasks. The page always shows test seed 10000 for each method, not a handpicked successful run.
+Training samples episode seeds 0–6999. Validation seeds 8000–8002 select checkpoints every 2000 interactions. Held-out seeds 10000–10004 are evaluated only after selection, on each of three tasks. The page always shows test seed 10000 for each method, not a handpicked successful run.
+
+## Defensive training extension
+
+The blocking page also offers a **separate defensive SAC specialist**. It starts from the included general-policy actor snapshot and uses an auxiliary reward for covering a challenger’s line and actually slowing challengers. Its action at runtime is entirely the learned neural policy. This is an explicit extension to the paper’s training recipe. The standard SAC result remains separately visible.
+
+```bash
+python -m hilepp.train_defense \
+  --warm-start checkpoints/defense/warm-start.npz \
+  --steps 6000 --seed 17 --output checkpoints/new-defense
+python -m hilepp.evaluate --defense-dir checkpoints/new-defense
+```
+
+Selection and evaluation use the **unmodified progress/rank reward**. The specialist is evaluated on five blocking seeds and is not pooled into the general-policy score. Its extra training reward and event definitions are documented in [METHOD.md](docs/METHOD.md). Omitting `--defense-dir` evaluates only the three general comparison methods.
+
+The default blocking scene shows a further **limited-reference diagnostic**. Before each solve, `limit_lateral_reference` clips the neural policy’s requested lateral position to within 1 m of the measured ego position. Speed, costs, obstacle constraints, and collision checks remain the same. The original request and applied reference are both plotted. This limit was introduced after inspecting failed runs, so these five repeated scenarios are diagnostic evidence, not untouched held-out tests. The unrestricted defensive actor remains selectable, including all of its failures.
 
 ## Recorded results
 
-4,000 interactions, one training seed (7), 16-second episodes, HILEPP-I. The selected validation checkpoint is step 4,000.
+<!-- RESULTS_START -->
+18,000 general SAC interactions, training seed 7, 24-second episodes. Validation selected step 12,000. The fixed planner requests 32 m/s, equal to the learned policy’s speed limit.
 
-| Method | Mean return, all 15 test episodes | Mean final rank | Completed | Solver failures | Detected collisions |
+| Method | Mean return, 15 test episodes | Mean final rank | Completed | Solver failures | Collisions |
 |---|---:|---:|---:|---:|---:|
-| Fixed-reference MPP | 162.19 | 1.20 | 15/15 | 0 | 0 |
-| Initial neural policy | 151.28 | 1.33 | 15/15 | 0 | 0 |
-| Trained SAC policy | 171.72 | 1.00 | 15/15 | 0 | 0 |
+| Fixed MPP | 171.52 | 2.20 | 14/15 | 1 | 0 |
+| Initial neural policy | 72.04 | 3.53 | 14/15 | 1 | 0 |
+| General SAC | 163.80 | 2.00 | 12/15 | 3 | 0 |
 
-The trained policy improves mean return by **5.9% over fixed MPP** in this small paired evaluation. There are 45 test episodes total. Fixed MPP requests 30 m/s at track center; the learned policy can request 18–32 m/s and ±4.5 m, so the gain includes both speed and lateral-reference choices. These results establish a working basic implementation, not statistical recovery of the original experiment or a safety claim.
+The defensive specialist has 6,000 additional interactions (seed 17); validation selected step 5,000. Its five blocking tests are separate from the general comparison. All evaluation returns exclude the auxiliary training reward.
+
+| Blocking method | Mean return | Defensive moves | Held-up vehicle-seconds | Opponent passes | Completed |
+|---|---:|---:|---:|---:|---:|
+| Fixed MPP | 186.74 | 0.00 | 0.10 | 2.00 | 5/5 |
+| General SAC | 177.55 | 0.00 | 0.80 | 1.80 | 4/5 |
+| Defensive SAC · auxiliary reward | 70.21 | 0.80 | 1.85 | 0.00 | 0/5 |
+| Defensive SAC + 1 m reference limit | 170.54 | 2.00 | 3.00 | 1.40 | 3/5 |
+
+The limited-reference variant uses the same defensive actor with its requested lateral position clipped to within 1 m of the current position. This limit was chosen after inspecting failed evaluations; its five repeats are diagnostics, not untouched held-out tests. All 55 episodes remain in the data. These are small-scale recreation results, not recovered paper benchmarks. Early failures remain in the averages and data. The replay shows the first test seed, 10000, for every method.
+<!-- RESULTS_END -->
 
 ![Actual validation and held-out results](docs/assets/evaluation.svg)
 
@@ -109,9 +135,9 @@ See [paper-to-code mapping](docs/METHOD.md) for equations and implementation det
 - Implements both HILEPP-I and II action interfaces; only I is trained here.
 - Recreates observation structure and progress/rank reward. A −10 termination penalty is added for solver failure, collision, or leaving the track.
 - Replaces acados/HPIPM with CasADi/IPOPT, uses a three-second horizon, and omits the recursive-feasibility terminal set.
-- Uses constant-speed/lateral opponent predictions and simple lane-tracking/car-following opponents, instead of the paper’s leader/follower prediction rules and MPC opponents.
-- Uses Frenet obstacle ellipses with bounded slack and approximate Frenet body collision checks; it does not establish continuous Cartesian collision freedom.
-- Uses synthetic circuit sections, one training seed, 4,000 interactions, and 16-second episodes. The paper used a substantially larger training/evaluation protocol.
+- Uses the paper’s leader/follower role distinction for obstacle assumptions, with a simplified position integrator. Actual opponents use a gap-seeking passing controller with car following, rather than MPC. Faster blocking challengers cannot be outrun by the ego.
+- Uses Frenet obstacle ellipses with bounded slack and oriented Cartesian body collision checks every 0.05 s; it does not establish continuous Cartesian collision freedom.
+- Uses synthetic circuit sections, one training seed, 18,000 interactions, and 24-second episodes. The paper used a substantially larger training/evaluation protocol.
 - The failed-plan rule stops before executing the rejected control; it is not a fallback vehicle controller.
 
 ## Layout and validation
@@ -132,6 +158,6 @@ node scripts/render_scene.mjs
 python scripts/build_site.py
 ```
 
-The visualization starts paused, interpolates recorded states, and holds each forecast for three seconds so the ghost and actual car can visibly diverge. The forecast comparison measures replanning consistency, not an independent learned predictor. The export renders the page’s Canvas commands into SVG; it is not a browser layout test.
+The visualization starts paused and interpolates recorded physical states. The current ego plan and opponent obstacle assumptions refresh every 0.25 s. An optional held-opponent comparison shows the assumed and actual position at the same timestamp. Follower braking is a yielding feasibility assumption, not a prediction of intent. Event markers and relative-distance/speed plots expose actual passing and defensive interactions. The export renders the page’s Canvas commands into SVG; it is not a browser layout test.
 
 MIT license. Citation metadata in [CITATION.cff](CITATION.cff). Dependency/source hashes and environment versions in [PROVENANCE.json](PROVENANCE.json).

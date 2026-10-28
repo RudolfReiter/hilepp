@@ -8,8 +8,8 @@
   },
   "foundation": {
     "repository": "https://github.com/RudolfReiter/vehicle_gym",
-    "commit": "0817614fbc82bd7c09f577c332f4afa15b1a8028",
-    "package_version": "1.1.0"
+    "commit": "55ce32b4cef9c722bf53cf98d95e615827bf1c4d",
+    "package_version": "1.2.0"
   },
   "environment": {
     "python": "3.9.23",
@@ -21,16 +21,18 @@
     "threads": 1
   },
   "training": {
-    "steps": 4000,
+    "steps": 18000,
     "seed": 7,
-    "selected_step": 4000,
+    "selected_step": 12000,
     "validation_seeds": [
       8000,
       8001,
       8002
     ],
-    "elapsed_s": 490.0294030599762,
-    "checkpoint_format": "NPZ deterministic actor mean parameters; no pickle or optimizer state"
+    "elapsed_s": 2744.6833585909917,
+    "checkpoint_format": "NPZ deterministic actor mean parameters; no pickle or optimizer state",
+    "environment_version": "interactive-v2",
+    "episode_limit_s": 24
   },
   "evaluation": {
     "tasks": [
@@ -50,31 +52,53 @@
       10003,
       10004
     ],
-    "episodes": 45,
-    "episode_limit_s": 16,
-    "displayed_seed": 10000
+    "episodes": 55,
+    "episode_limit_s": 24,
+    "displayed_seed": 10000,
+    "additional_method": "defense and defense_limited, blocking only; same unmodified evaluation reward",
+    "reference_limit_diagnostic_m": 1.0,
+    "diagnostic_protocol": "Reference limit chosen after inspecting failed evaluations; five repeated scenarios are not untouched held-out tests"
   },
   "validation": {
-    "unit_and_numerical_tests": 9,
-    "foundation_unit_and_numerical_tests": 17,
+    "unit_and_numerical_tests": 11,
+    "foundation_unit_and_numerical_tests": 21,
     "numpy_torch_export_parity": true,
     "playback_state_checks": true,
     "browser_layout_checked": false,
     "gymnasium_adapter_checked": false
   },
   "sha256": {
-    "src/hilepp/__init__.py": "2860be762dae2e24aadb364f5eb9ac9beeb51c78716b61b5c58dbaf91ecb0245",
-    "src/hilepp/evaluate.py": "9e44596009e18f7bd82e3e0b2bf5ded336250c556c9350325afa430b098cb8e5",
-    "src/hilepp/interface.py": "4055467d76c885168d1a70bd5c1176261295eb319c953c6a5f9281d866a48af7",
-    "src/hilepp/policy.py": "ead38788c812d1756fb929a30f15b94fc62335728abc25a8965b07a8df5ae878",
-    "src/hilepp/sac.py": "b9e96b7b8a9727c3370e8451311da05fee432f4106585bb175266a092ce07184",
-    "src/hilepp/train.py": "249bd9d71979c651e96aaa87737ea092877846e97aba1aa60a59e48aac75db5a",
-    "checkpoints/best.npz": "dffe6b01efa6de965765e56e9c86f1c73ab08a9248af26907bf27c60b52bac44",
+    "checkpoints/best.npz": "d7661eef4ec494fea6fde803ab30f109b5870b1f7364b8c2289f6952631c177e",
+    "checkpoints/defense/best.npz": "e2f9a81a93b23c364a0a863c2e4a55442b221ea6da20d788f4f94e185a58c095",
+    "checkpoints/defense/initial.npz": "f531d207137e805b128e7d27c854941e3384cff8eb652378dcf5e5e40cfd1a6a",
+    "checkpoints/defense/last.npz": "7ce6b79b8909938ee161eb32d7515ef1b14bd161d7e8864df78bf9ff5bb524b3",
+    "checkpoints/defense/training.json": "aba4e1bca4209e50410cb3bd8ced0014065ec72fa1df8840601079a03de54aad",
+    "checkpoints/defense/warm-start.npz": "f531d207137e805b128e7d27c854941e3384cff8eb652378dcf5e5e40cfd1a6a",
     "checkpoints/initial.npz": "5b4c1bb0eb3cecc0fc2d2987fad47435e3b98d755e4d2bc2798d2afdc3afeea2",
-    "checkpoints/last.npz": "dffe6b01efa6de965765e56e9c86f1c73ab08a9248af26907bf27c60b52bac44",
-    "checkpoints/training.json": "233aa32c2d298d35e725010ca898034d18e4bcb2f82e8269057fef3ef98a93d1",
-    "docs/data/evaluation.json": "460e2381366e81347992029efef6d1c8f1cbded5d74b4df502965b8d741fbc9b",
-    "docs/data/experiment.js": "a6658b8f6cabf6d4fea4e2d8e7d8d1f1d87b910420255e6c296562c0f3ea6673",
-    "docs/data/experiment.json": "7ef4b9a931c8f5db9a7710b9d4f7ee3977b956e058c5c06a082ec123ee2c05f2"
+    "checkpoints/last.npz": "94bab88fa2a567b499410ab83687330c4e3c3c5add6b805264c086ec2f2c23d9",
+    "checkpoints/training.json": "e1fa8b480231f553079f89819cf6204aca4767fe5f4c6b428f37d510f1b50dac",
+    "docs/data/evaluation.json": "339d44840f0f5fdec8c65c6c548e8edca0720e15b341d2ea628140faf90fc57d",
+    "docs/data/experiment.js": "99781bf4712b43ca41a02910a90841179b16e2d374468505cb1f6e6cbaf4d4aa",
+    "docs/data/experiment.json": "7480e9b6b216646540fe9d36c5e8ec4a10eb7f28124a29d4340134a9c5c900b6",
+    "src/hilepp/__init__.py": "2860be762dae2e24aadb364f5eb9ac9beeb51c78716b61b5c58dbaf91ecb0245",
+    "src/hilepp/evaluate.py": "62a1aa521b491bc3078795f35767fb36dafb703e5eb38583d747a742d542ae3c",
+    "src/hilepp/interface.py": "3ed0ff836d736d37bb3bef8f1ba359d8048521843f9178c3708cd33fc30ccdac",
+    "src/hilepp/policy.py": "abc2d28477478918642101b3ef385fe23212743f7535c959271f325f6613e660",
+    "src/hilepp/sac.py": "b9e96b7b8a9727c3370e8451311da05fee432f4106585bb175266a092ce07184",
+    "src/hilepp/train.py": "3ef158292d8d38e5d564dfbd068d68e83e8c392a195ee8a390903971cf908fad",
+    "src/hilepp/train_defense.py": "e90e3e2e844009933bb572e6564f7a6895c20fd4cf4b37149fd07ec2ee4a870a"
+  },
+  "defensive_training": {
+    "algorithm": "SAC with auxiliary defensive reward",
+    "seed": 17,
+    "completed_steps": 6000,
+    "selected_step": 5000,
+    "validation_seeds": [
+      8001
+    ],
+    "auxiliary_reward": "0.75 * lane_coverage + 0.75 * held_up_count",
+    "selection_reward": "unmodified progress/rank return",
+    "elapsed_s": 944.8786992289824,
+    "warm_start": "checkpoints/defense/warm-start.npz: general SAC actor at step 10000; reset critics and replay"
   }
 }

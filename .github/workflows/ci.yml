@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: RudolfReiter/vehicle_gym
-          ref: 0817614fbc82bd7c09f577c332f4afa15b1a8028
+          ref: 55ce32b4cef9c722bf53cf98d95e615827bf1c4d
           path: foundation
       - uses: actions/setup-python@v5
         with:

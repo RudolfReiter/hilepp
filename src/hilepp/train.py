@@ -7,12 +7,13 @@ from time import perf_counter
 import numpy as np
 from .interface import HileppEnv
 from .sac import SAC, Replay
+from vehiclegym.simulator.racing_world import ENVIRONMENT_VERSION
 
 
 def validate(agent, variant):
     returns = []
     for i, scenario in enumerate(["overtaking", "blocking", "mixed"]):
-        env = HileppEnv(variant, max_steps=64)
+        env = HileppEnv(variant, max_steps=96)
         obs, _ = env.reset(seed=8000 + i, options={"scenario": scenario})
         total = 0
         while True:
@@ -26,13 +27,13 @@ def validate(agent, variant):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--steps", type=int, default=6000)
+    parser.add_argument("--steps", type=int, default=18000)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--variant", choices=["I", "II"], default="I")
     parser.add_argument("--output", type=Path, default=Path("checkpoints"))
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
-    env = HileppEnv(args.variant, max_steps=64)
+    env = HileppEnv(args.variant, max_steps=96)
     agent = SAC(actions=env.action_size, seed=args.seed)
     replay = Replay(actions=env.action_size, seed=args.seed)
     rng = np.random.default_rng(args.seed)
@@ -44,6 +45,8 @@ def main():
         "validation_seeds": [8000, 8001, 8002],
         "episodes": [],
         "validation": [],
+        "environment_version": ENVIRONMENT_VERSION,
+        "episode_limit_steps": 96,
     }
     agent.export(args.output / "initial.npz")
     best = validate(agent, args.variant)
@@ -79,7 +82,7 @@ def main():
             obs = None
         else:
             obs = next_obs
-        if step % 1000 == 0 or step == args.steps:
+        if step % 2000 == 0 or step == args.steps:
             score = validate(agent, args.variant)
             log["validation"].append({"step": step, "return": score})
             if score > best:
