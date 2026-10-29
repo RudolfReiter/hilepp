@@ -1,46 +1,229 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HILEPP · Predictive planning for autonomous racing</title>
-<meta name="description" content="A recreated hierarchical racing policy: reinforcement learning selects speed and lateral references; nonlinear model predictive control turns them into a drive."><meta property="og:title" content="HILEPP · ECC 2023 research">
-<meta property="og:description" content="A recreated hierarchical racing policy: reinforcement learning selects speed and lateral references; nonlinear model predictive control turns them into a drive."><meta property="og:image" content="assets/driving-scene.png">
-<link rel="icon" type="image/svg+xml" href="assets/icon.svg"><link rel="stylesheet" href="styles.css"></head>
-<body><header><nav class="wrap" aria-label="Main navigation"><a class="brand" href="#">HILEPP<span class="muted"> / research</span></a><a href="#simulation">Simulation</a><a href="#research">Research</a><a href="#results">Results</a><a href="https://github.com/RudolfReiter/hilepp">GitHub ↗</a></nav></header>
-<main><div class="wrap"><section class="hero"><div><p class="eyebrow">Autonomous racing · Hierarchical reinforcement learning</p><h1>Learning race strategy.<br>Planning vehicle motion.</h1><p class="lead">A recreated hierarchical racing policy: reinforcement learning selects speed and lateral references; nonlinear model predictive control turns them into a drive.</p><div class="links"><a href="#simulation">Explore the simulation ↓</a><a href="#reproduce">Run it locally</a></div></div><aside class="publication"><span class="tag">European Control Conference · ECC 2023</span>
-<h3>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</h3>
-<p class="muted">Rudolf Reiter, Jasper Hoffmann,<br>Joschka Boedecker &amp; Moritz Diehl</p>
-<p class="small muted">Bucharest, Romania · 13–16 June 2023<br>DOI: 10.23919/ECC57647.2023.10178143</p>
-<div class="links"><a href="https://ieeexplore.ieee.org/document/10178143">Read the paper ↗</a><a href="https://publications.syscop.de/Reiter2023.pdf">Author PDF</a></div></aside></section>
-<div class="notice"><strong>Research recreation.</strong> This is a new implementation of the paper’s policy interface, built on vehicle_gym. It is not the original HILEPP training repository. The included policy was trained afresh; it is not an original paper checkpoint.</div>
-<section class="section" id="architecture" style="border-top:0"><div class="section-head"><h2>From policy to driving</h2><p>A transparent interface between strategic decisions, physical dynamics, and the trajectory you see on screen.</p></div><div class="flow"><article><p class="number">01</p><h3>Observe</h3><p>22 values describe curvature, ego motion, and three opponents.</p></article><article><p class="number">02</p><h3>Learn a reference</h3><p>SAC chooses desired speed and lateral position. HILEPP-II can also choose two cost weights.</p></article><article><p class="number">03</p><h3>Solve the motion plan</h3><p>vehicle_gym expands the reference and solves a nonlinear constrained problem.</p></article><article><p class="number">04</p><h3>Execute & observe</h3><p>Apply the first control for 0.25 s, measure the new state, and repeat.</p></article></div></section>
-<section class="section" id="simulation"><div class="section-head"><h2>Recorded driving simulation</h2><p>Inspect the latest MPC solve: the blue ego plan and orange obstacle assumptions update every 0.25 s. Solid cars show the recorded simulation. Playback starts paused and stops at the end.</p></div>
-<div class="scene-panel"><div class="toolbar"><label>Task <select id="scenario" aria-label="Driving task"></select></label><label>Policy <select id="method" aria-label="Controller"></select></label><label>Camera <select id="view"><option value="follow">Smooth follow</option><option value="overview">Track overview</option></select></label></div>
-<div class="viewport"><canvas id="scene" role="img" aria-label="Recorded multi-car driving scene with actual cars, the current ego plan, and predicted obstacle trajectories">Use the downloadable scene image and data if Canvas is unavailable.</canvas><div class="scene-caption"><strong id="scene-title"></strong><p id="scene-subtitle"></p></div></div>
-<div class="legend"><span><i class="dot blue"></i>Blue: ego / its current plan</span><span><i class="dot orange"></i>Orange dashed: obstacle assumptions</span><span><i class="dot gray"></i>Solid cars: actual opponents</span></div>
-<div class="toolbar overlay-controls"><label>Display <select id="overlay"><option value="mpc">Current MPC plan</option><option value="audit">Hold an opponent assumption for 3 s</option></select></label><label>Inspect <select id="opponent"><option value="0">Opponent 1</option><option value="1">Opponent 2</option><option value="2">Opponent 3</option></select></label><label>Horizon marker <select id="probe"><option value=".5">+0.5 s</option><option value="1" selected>+1.0 s</option><option value="2">+2.0 s</option><option value="3">+3.0 s</option></select></label><label><input id="envelopes" type="checkbox" checked> Obstacle envelope</label></div>
-<div class="playback"><button id="play" class="primary">Play</button><button id="reset" aria-label="Restart playback">Reset</button><input id="seek" type="range" min="0" max="24" step=".01" value="0" aria-label="Simulation time"><span class="time" id="time">0.0 / 24.0 s</span><select id="rate" aria-label="Playback speed"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div>
-<div class="metrics"><div class="metric"><p>Actual speed</p><strong id="speed-value">—</strong></div><div class="metric"><p>Requested speed</p><strong id="reference-value">—</strong></div><div class="metric"><p>Current position</p><strong id="rank-value">—</strong></div><div class="metric"><p>Latest MPC solve</p><strong id="solve-value">—</strong></div></div></div>
-<p class="status" id="run-status" aria-live="polite"></p>
-<p class="explanation" id="overlay-explanation" aria-live="polite"></p>
-<div class="research-grid"><article class="card"><h3>What the optimizer plans</h3><p>The blue path is the ego’s current 3-second plan. Only its first 0.25-second control is applied. At the next control step, the planner observes every car and solves again. A translucent blue car marks the selected future time in this current plan; it is not a forecast being scored against later ego motion.</p></article><article class="card"><h3>What the optimizer assumes</h3><p>The orange paths are the <em>other vehicles’</em> trajectories supplied to the obstacle constraints in that same solve. Leaders and alongside cars retain their measured speed and heading error. A car fully behind the ego is assumed to brake to a stop, following the role distinction in Section IV-B.3 of the paper. This is a feasibility assumption about yielding, not a prediction of intent.</p></article></div>
-<details><summary>Compare an opponent assumption with what actually happened</summary><p>Choose “Hold an opponent assumption for 3 s.” Its orange ghost and the corresponding solid opponent then show the <em>same timestamp</em>. The ghost follows the assumption recorded at the start of that window. Separation shows how the actual opponent departed from that assumption. A braking follower normally diverges because it does not actually have to brake. This diagnostic never freezes the controller: MPC continues to replan every 0.25 s.</p></details>
-<div class="event-panel"><h3>Passes and defensive interactions</h3><p id="interaction-summary"></p><div id="events" class="event-list" aria-label="Jump to a recorded driving event"></div><p class="small muted">Click an event to pause one second before it. A measured defensive move requires more than 0.8 m of ego lateral motion toward an approaching challenger’s line over two seconds, while that challenger is held below its target speed. These event counts are diagnostics.</p></div>
-<div class="plots"><article class="plot"><h3>Ego speed and requested speed</h3><div id="speed-plot"></div><p>Blue: actual speed. Dashed gray: reference supplied to MPC.</p></article><article class="plot"><h3>Ego lateral position and reference</h3><div id="lateral-plot"></div><p>Blue: actual position. Dashed gray: reference supplied to MPC. Purple, when present: the neural policy’s original request before the 1 m limit.</p></article><article class="plot"><h3>Which car is ahead?</h3><div id="gap-plot"></div><p>Each curve is an opponent’s distance ahead of the ego, using its car color. Crossing zero changes center order; a pass event requires a full car length of clearance.</p></article><article class="plot"><h3>Is the challenger being held up?</h3><div id="opponent-speed-plot"></div><p>Selected opponent’s actual speed versus its free-running target. The event summary counts time spent slowed behind the ego; general speed loss alone does not establish blocking.</p></article></div>
-<noscript>Interactive playback requires JavaScript. <a href="assets/driving-scene.png">View a recorded scene</a> or download the evaluation data below.</noscript></section>
-<section class="section" id="research"><p class="eyebrow">Research contribution · ECC 2023</p><h2 class="research-title">A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</h2><p class="explanation">The policy chooses strategy through reference parameters, while the motion planner retains the vehicle model and constraints. HILEPP-I outputs desired speed and lateral position. HILEPP-II additionally sets the speed and lateral cost weights. Both interfaces are implemented; the included trained checkpoint uses HILEPP-I.</p><div class="notice"><strong>Additional defensive training experiment.</strong> The general policy uses the original recreation reward. A separate blocking specialist starts from a general SAC actor and trains for 6,000 more interactions with an auxiliary reward: 0.75 × challenger-line coverage + 0.75 × held-up opponent count. Checkpoint selection and test evaluation use the unmodified progress/rank reward. Select “Defensive SAC · auxiliary reward” in the blocking example. This is an explicit training extension, not a recovered paper result.</div><div class="notice"><strong>Reference-limit diagnostic.</strong> The limited-reference variant uses the same defensive neural policy, with its requested lateral position clipped to within 1.0 m of the measured ego position before each MPC solve. It changes neither the obstacle constraints nor the collision checks. The limiter was introduced after inspecting failed runs, so its five repeated scenarios are diagnostic evidence, not untouched held-out tests. The unrestricted policy and its failures remain available in the selector and table.</div>
-<div class="research-grid"><article class="card"><h3>Implemented in this recreation</h3><ul><li>Actual SAC: a squashed Gaussian actor, twin critics, target critics, and entropy regularization.</li><li>18,000 training interactions, one training seed, 96-step episodes; NumPy-only checkpoint inference.</li><li>Paper-style observations and progress/rank reward, with a −10 failure penalty added for this recreation.</li></ul></article><article class="card"><h3>Differences from the paper</h3><ul><li>CasADi/IPOPT replaces the original acados/HPIPM solver in these runs.</li><li>Opponents use a gap-seeking passing controller with car following, not the paper’s opponent MPC. Blocking opponents target 34–36 m/s while the ego is limited to 32 m/s.</li><li>Obstacle ellipses are expressed in Frenet coordinates with bounded slack (0–0.08). Collision checks use oriented Cartesian rectangles. The reported Frenet separation is a diagnostic proxy, not Euclidean clearance.</li><li>Opponent predictions follow the paper’s role distinction, with a simplified midpoint integrator and lateral clipping. No recursive-feasibility terminal set or safety guarantee. Synthetic circuit sections and short episodes replace the paper’s larger benchmark.</li></ul></article></div><div class="links"><a href="https://ieeexplore.ieee.org/document/10178143">IEEE publication ↗</a><a href="https://publications.syscop.de/Reiter2023.pdf">Author manuscript</a><a href="https://rudolfreiter.github.io/hilepp_vis/">Original project page</a></div></section>
-<section class="section" id="results"><div class="section-head"><h2>Car evaluation and diagnostic experiments</h2><p>One training seed · three tasks · five test seeds per task</p></div><p>The general SAC policy achieved a mean held-out return of 163.8, compared with 171.5 for the fixed-reference planner (-4.5%). These are small-scale results from this implementation, not the paper’s reported benchmark.</p>
-<img class="figure" src="assets/evaluation.svg" width="1200" height="400" loading="lazy" alt="Actual validation learning curve and held-out episode returns for fixed MPP, initial policy, and trained SAC across three driving tasks"><p class="figure-note">The fixed planner requests 32 m/s at track center, equal to the learned policy’s speed limit. Each method uses the same five held-out seeds (10000–10004) for each of three tasks: 45 general-comparison episodes. The replay always shows seed 10000. Dots show individual test episodes; bars show means. Validation uses three separate seeds (8000–8002). The best validation checkpoint was selected before test evaluation. A separately trained defensive SAC specialist adds five blocking-only tests. Its auxiliary training reward encourages lane coverage and actually slowing challengers; these test returns use the unmodified progress/rank reward. It is not pooled into the general-policy result or claimed as the paper’s training recipe. Five further diagnostic runs use the same defensive actor with a 1 m lateral-reference limit chosen after inspecting failures. These repeats are not untouched held-out tests.</p><div class="table-scroll"><table><caption class="small muted">General comparison plus separately labeled diagnostic variants; lower final rank is better.</caption><thead><tr><th>Task</th><th>Method</th><th>Return · mean ± sample SD</th><th>Final rank ↓</th><th>Completed</th><th>Solver failures</th><th>Collisions</th></tr></thead><tbody><tr><td>Overtaking</td><td>Fixed MPP</td><td>151.5 ± 89.6</td><td>1.6</td><td>4 / 5</td><td>1</td><td>0</td></tr><tr><td>Overtaking</td><td>Initial policy</td><td>48.7 ± 49.9</td><td>3.2</td><td>5 / 5</td><td>0</td><td>0</td></tr><tr><td>Overtaking</td><td>Trained SAC</td><td>170.1 ± 46.9</td><td>1.0</td><td>4 / 5</td><td>1</td><td>0</td></tr><tr><td>Blocking</td><td>Fixed MPP</td><td>186.7 ± 4.7</td><td>3.0</td><td>5 / 5</td><td>0</td><td>0</td></tr><tr><td>Blocking</td><td>Initial policy</td><td>107.1 ± 1.9</td><td>4.0</td><td>5 / 5</td><td>0</td><td>0</td></tr><tr><td>Blocking</td><td>Trained SAC</td><td>177.6 ± 29.4</td><td>3.0</td><td>4 / 5</td><td>1</td><td>0</td></tr><tr><td>Blocking</td><td>Defensive SAC (auxiliary reward)</td><td>70.2 ± 7.3</td><td>1.0</td><td>0 / 5</td><td>5</td><td>0</td></tr><tr><td>Blocking</td><td>Defensive SAC + limited reference</td><td>170.5 ± 71.2</td><td>2.4</td><td>3 / 5</td><td>2</td><td>0</td></tr><tr><td>Mixed</td><td>Fixed MPP</td><td>176.3 ± 25.3</td><td>2.0</td><td>5 / 5</td><td>0</td><td>0</td></tr><tr><td>Mixed</td><td>Initial policy</td><td>60.3 ± 40.0</td><td>3.4</td><td>4 / 5</td><td>1</td><td>0</td></tr><tr><td>Mixed</td><td>Trained SAC</td><td>143.8 ± 45.2</td><td>2.0</td><td>4 / 5</td><td>1</td><td>0</td></tr></tbody></table></div>
-<h3>Blocking from the same initial traffic</h3><img class="figure" src="assets/blocking.svg" width="1200" height="400" loading="lazy" alt="First challenger distance ahead for fixed MPP and defensive SAC, alongside actual lateral positions in the defensive run"><p class="figure-note">Seed 10000 is shown for both controllers. Defensive SAC uses the limited-reference diagnostic when available. This limit was introduced after inspecting failed runs; it is not an untouched test comparison. Positive distance means the challenger’s center is ahead. Pass events additionally require 4.6 m of clearance. The right panel shows actual motion, not reference commands. Opponents react to the ego, so their realized trajectories differ between controllers. Curves end if an episode fails.</p><h3>Measured blocking behavior</h3><div class="table-scroll"><table><thead><tr><th>Blocking controller</th><th>Defensive moves</th><th>Held-up vehicle-seconds</th><th>Opponent passes</th></tr></thead><tbody><tr><td>Fixed MPP</td><td>0.0</td><td>0.1</td><td>2.0</td></tr><tr><td>Initial policy</td><td>0.0</td><td>0.5</td><td>3.0</td></tr><tr><td>Trained SAC</td><td>0.0</td><td>0.8</td><td>1.8</td></tr><tr><td>Defensive SAC (auxiliary reward)</td><td>0.8</td><td>1.9</td><td>0.0</td></tr><tr><td>Defensive SAC + limited reference</td><td>2.0</td><td>3.0</td><td>1.4</td></tr></tbody></table></div><p class="small muted">Mean counts and durations per episode. Held-up vehicle-seconds sum over challengers: more than one can be slowed at once. Read these alongside completion and failures; an early failure is not successful defense.</p>
-<p class="small muted">Completion, solver failures, and collisions are reported for every method above. This finite evaluation does not establish safety. A rejected optimizer solution ends the episode before its control is applied. Return combines forward progress and the number of opponents behind the ego.</p><div class="links"><a href="data/evaluation.json" download>All test records</a><a href="data/experiment.json" download>Replay data · JSON</a><a href="assets/evaluation.svg" download>Download figure · SVG</a><a href="assets/driving-scene.png" download>Download driving scene</a></div></section>
-<section class="section" id="reproduce"><div class="section-head"><h2>Run the research</h2><p>Use the included new checkpoint, retrain SAC, or connect your own normalized policy to the planner.</p></div><pre><code># Put the improved vehicle_gym checkout beside this repository
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ../vehicle_gym -e &#x27;.[train,dev]&#x27;
-python -m hilepp.evaluate --checkpoint-dir checkpoints --defense-dir checkpoints/defense --defense-reference-limit 1.0
-python -m hilepp.train --steps 18000 --seed 7 --output checkpoints/new-run
-python -m http.server 8000 --directory docs</code></pre>
-<details><summary>Numerical setup and provenance</summary><p>Python 3.9 · NumPy 1.26.4 · SciPy 1.13.1 · CasADi 3.8.1 / IPOPT · PyTorch 2.8.0 on CPU. The planner uses 12 intervals of 0.25 s, a five-state Frenet model, RK4 integration, and three opponents. Simulation uses five substeps per interval. Full settings, checkpoint provenance, and limitations are documented in the repository.</p></details>
-<details><summary>What is included in the repositories?</summary><p>Python source, regression tests, recorded evaluations, editable web visualization, a scientific figure generator, citation metadata, and GitHub Pages deployment. The HILEPP wrapper depends on the improved vehicle_gym package instead of duplicating its dynamics or planner.</p></details>
-<div class="links"><a href="https://github.com/RudolfReiter/hilepp">Repository ↗</a><a href="assets/source.zip" download>Download source archive</a><a href="https://github.com/RudolfReiter/vehicle_gym">vehicle_gym foundation ↗</a></div></section>
-</div></main><footer><div class="wrap footer-row"><p>Rudolf Reiter · Autonomous racing research</p><p>Recreated implementation · Not the original HILEPP repository</p></div></footer>
-<script src="data/experiment.js"></script><script src="scene.js"></script><script src="app.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</title>
+<meta name="description" content="Recorded six-car MPC races on real circuits, with current planning horizons and reproducible evaluation.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+<header>
+<div class="publication">HILEPP · Recreated ECC 2023 experiment</div>
+<h1>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</h1>
+<p class="authors">Rudolf Reiter · Jasper Hoffmann · Joschka Boedecker · Moritz Diehl</p>
+<p class="abstract">A reinforcement learning policy sets the references and cost weights of one MPC controller. Five independent MPC opponents respond to the evolving race.</p>
+<nav>
+<a href="https://publications.syscop.de/Reiter2023.pdf">Paper · ECC 2023 ↗</a>
+<a href="https://github.com/RudolfReiter/hilepp">Repository ↗</a>
+<a href="#experiment">Experimental protocol</a>
+<a href="#results">Results</a>
+</nav>
+</header>
+<section class="race" aria-label="Recorded racing experiment">
+<div class="toolbar">
+<label>Circuit <select id="track">
+</select>
+</label>
+<label>Actor action <select id="execution">
+<option value="sampled">Sampled policy</option>
+<option value="mean">Mean action</option>
+</select>
+</label>
+<label>Controller <select id="method">
+</select>
+</label>
+<label>Race seed <select id="seed">
+</select>
+</label>
+<label>Observe <select id="focus">
+</select>
+</label>
+<label>Camera <select id="camera">
+<option value="broadcast">Track camera</option>
+<option value="overhead">Overhead</option>
+<option value="circuit">Full circuit</option>
+</select>
+</label>
+<label>Zoom <select id="zoom">
+<option value="1">Wide</option>
+<option value="1.25" selected>Race</option>
+<option value="1.8">Close</option>
+</select>
+</label>
+<label class="check">
+<input id="predictions" type="checkbox" checked>Planning horizons</label>
+<button id="fullscreen" type="button">Expand ↗</button>
+</div>
+<div class="stage">
+<canvas id="scene" aria-label="Six-car race on the selected circuit. Use the adjacent timing table and timeline for the recorded state.">
+</canvas>
+<div class="stage-label">
+<span id="circuit-name">IMS</span>
+<span id="race-clock">0:00.0</span>
+<span id="race-state">Loading recorded race…</span>
+</div>
+<div class="standings">
+<div class="panel-heading">Race order <span>gap to leader</span>
+</div>
+<div id="standings">
+</div>
+</div>
+<canvas id="map" aria-label="Circuit map and car positions">
+</canvas>
+<div id="load-status" role="status">Loading race data…</div>
+<div class="legend">
+<span>
+<i class="line ego">
+</i>Selected MPC plan</span>
+<span>
+<i class="line cv">
+</i>Other car: constant speed</span>
+<span>
+<i class="line brake">
+</i>Other car: full braking</span>
+</div>
+</div>
+<div class="playback">
+<button id="play" aria-label="Play recorded race">▶ Play</button>
+<input id="timeline" aria-label="Race time" type="range" min="0" max="180" step=".02" value="0">
+<output id="time-label">0.0 / 180.0 s</output>
+<label>Playback <select id="rate">
+<option value=".5">½×</option>
+<option value="1" selected>1×</option>
+<option value="2">2×</option>
+<option value="4">4×</option>
+</select>
+</label>
+</div>
+<div class="event-nav">
+<label>Jump to a recorded pass <select id="event">
+<option value="0">Race start</option>
+</select>
+</label>
+<span>Playback starts 3 s before the selected event.</span>
+</div>
+<div class="telemetry">
+<div>
+<h2 id="controller-title">Controller state</h2>
+<div id="controller-values">
+</div>
+<p class="note" id="horizon-note">
+</p>
+</div>
+<div>
+<h2>Obstacle assumptions</h2>
+<div id="opponent-modes">
+</div>
+<p class="note">Relative to the selected controller. A car fully behind is assigned full braking; cars ahead or alongside retain measured speed and heading error.</p>
+</div>
+</div>
+<div class="plots">
+<div>
+<h2>Speed <span>km/h</span>
+</h2>
+<canvas id="speed-plot" aria-label="Measured speed of all six cars over the race">
+</canvas>
+</div>
+<div>
+<h2>Race order <span>position</span>
+</h2>
+<canvas id="rank-plot" aria-label="Race position over time">
+</canvas>
+</div>
+<div>
+<h2>Lateral reference <span>m · selected car</span>
+</h2>
+<canvas id="lateral-plot" aria-label="Selected car lateral reference and measured lateral position">
+</canvas>
+<p class="plot-legend">Blue: reference · Ochre, dashed: measured position</p>
+</div>
+<div>
+<h2>MPC cost weights <span>log scale · selected car</span>
+</h2>
+<canvas id="weights-plot" aria-label="Selected car speed and lateral cost weights">
+</canvas>
+<p class="plot-legend">Blue: speed weight · Ochre: lateral weight</p>
+</div>
+</div>
+</section>
+<section id="experiment">
+<h2>Experimental protocol</h2>
+<p>Six vehicles share one periodic, curvilinear track model and identical vehicle dynamics. Each MPC receives all five measured opponent states, solves its own finite-horizon problem, then applies only the first force and steering-rate input. All six vehicles advance simultaneously. Opponent predictions are assumptions inside each optimization, not their actual future controls.</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Control architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HILEPP</td>
+<td>SAC → speed and lateral references, speed and lateral weights → MPC → actuators</td>
+</tr>
+<tr>
+<td>SAC</td>
+<td>SAC → longitudinal force and steering rate; no ego MPC</td>
+</tr>
+<tr>
+<td>MPC</td>
+<td>Fixed references and weights → MPC → actuators</td>
+</tr>
+</tbody>
+</table>
+<p>Every opponent uses MPC in every comparison. HILEPP’s maximum speed reference and the fixed MPC ego target are both 28 m/s; two opponents target 31 and 29 m/s. The ego MPC horizon changes with its references and weights. The dashed obstacle trajectories update at each control step; after a pass, the follower is assumed able to brake. This feasibility assumption does not assert that the follower intends to brake.</p>
+<div class="protocol" id="protocol">
+</div>
+<details>
+<summary>Numerical implementation and reproducibility</summary>
+<p>acados SQP, the original vehicle_gym kinematic Frenet model, soft state and obstacle constraints, and an approximate terminal condition. Track coordinates come from the packaged IMS and Sepang datasets, periodically smoothed over 6 m. Published failures remain in the evaluation. These fixed evaluation seeds were inspected during development; this is not an unseen generalization benchmark. This experiment uses a reduced training budget and discretization; it does not reproduce the paper’s quantitative results.</p>
+<p>Download the replay for measured states, commands, every controller’s horizon, obstacle assumptions and solver diagnostics. See the repository for training seeds, checkpoint hashes and commands.</p>
+<a id="download" download>Download this race (.json.gz)</a> · <a href="data/manifest.json">Evaluation manifest</a>
+</details>
+</section>
+<section id="results">
+<h2>Recorded evaluation <span id="results-mode">
+</span>
+</h2>
+<p id="evaluation-note">Car 01 is the ego in the table. The actor-action selector compares seeded samples from the full learned SAC policy with its deterministic mean action; MPC is unchanged. All published seeds are shown, including early terminations. Finishing position is measured at the recorded end time; it is not comparable across different survival times.</p>
+<figure class="evaluation-figure">
+<img id="results-figure" width="1100" height="620" src="assets/evaluation-sampled.svg" alt="Individual evaluation seeds: recorded duration and ego progress on IMS and Sepang. Crosses denote early terminations.">
+<figcaption>One point per seed. A cross marks an early termination by any vehicle.</figcaption>
+</figure>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Circuit</th>
+<th>Policy</th>
+<th>Seed</th>
+<th>Time</th>
+<th>Ego progress</th>
+<th>Ego position</th>
+<th>Ego passes</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody id="results-body">
+</tbody>
+</table>
+</div>
+<p id="training-note">
+</p>
+</section>
+<footer>
+<p>Recreated implementation accompanying the ECC 2023 paper; this is not the original HILEPP repository.</p>
+<p>Reiter, Hoffmann, Boedecker &amp; Diehl. <em>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing.</em> European Control Conference, 2023. <a href="https://doi.org/10.23919/ECC57647.2023.10178143">DOI ↗</a>
+</p>
+</footer>
+</main>
+<script src="data/manifest.js">
+</script>
+<script src="scene.js">
+</script>
+<script src="app.js">
+</script>
+</body>
+</html>

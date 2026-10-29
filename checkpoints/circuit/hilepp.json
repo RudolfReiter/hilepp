@@ -1,0 +1,250 @@
+{
+  "protocol": "six-car-circuit-v1",
+  "method": "HILEPP",
+  "steps": 18000,
+  "gradient_updates": 17490,
+  "stage_steps": 6000,
+  "speed_reference_range": [
+    20,
+    28.0
+  ],
+  "pretraining": {
+    "protocol": "six-car-circuit-v1",
+    "method": "HILEPP",
+    "steps": 12000,
+    "gradient_updates": 11745,
+    "track": "IMS",
+    "training_seed": 42,
+    "training_episode_seeds": [
+      0,
+      40
+    ],
+    "observations": 31,
+    "actions": 4,
+    "episode_duration_s": 60,
+    "dt": 0.2,
+    "planner": {
+      "dt": 0.2,
+      "intervals": 25,
+      "opponents": 5,
+      "speed_limit": 40.0,
+      "lateral_acceleration": 9.0,
+      "terminal_speed": 15.0,
+      "obstacle_longitudinal": 9.0,
+      "obstacle_lateral": 3.8,
+      "braking": 10.0
+    },
+    "reward": "progress speed / 200 + number of opponents behind; termination penalty -10",
+    "entropy": 0.03,
+    "discount": 0.99,
+    "learning_rate": 0.0003,
+    "hidden_layers": [
+      64,
+      64
+    ],
+    "elapsed_s": 2298.2156662080088,
+    "checkpoint_sha256": "6538005fa898dce816f3e99203568efd184a3f2ebf67f6ab2075a39672eb76b8",
+    "stage_steps": 12000,
+    "speed_reference_range": [
+      20,
+      34
+    ],
+    "pretraining": null
+  },
+  "replay_reset_at_stage_start": true,
+  "track": "IMS",
+  "training_seed": 43,
+  "training_episode_seeds": [
+    5000,
+    5020
+  ],
+  "observations": 31,
+  "actions": 4,
+  "episode_duration_s": 60,
+  "dt": 0.2,
+  "planner": {
+    "dt": 0.2,
+    "intervals": 25,
+    "opponents": 5,
+    "speed_limit": 40.0,
+    "lateral_acceleration": 9.0,
+    "terminal_speed": 15.0,
+    "obstacle_longitudinal": 9.0,
+    "obstacle_lateral": 3.8,
+    "braking": 10.0
+  },
+  "reward": "progress speed / 200 + number of opponents behind; termination penalty -10",
+  "entropy": 0.03,
+  "discount": 0.99,
+  "learning_rate": 0.0003,
+  "hidden_layers": [
+    64,
+    64
+  ],
+  "elapsed_s": 3409.9687373259803,
+  "stage_elapsed_s": 1111.7530718189664,
+  "episodes": [
+    {
+      "episode": 5000,
+      "steps": 300,
+      "return_value": 696.4777883275102,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5001,
+      "steps": 300,
+      "return_value": 835.7450692010161,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5002,
+      "steps": 300,
+      "return_value": 911.377259917152,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5003,
+      "steps": 300,
+      "return_value": 840.2909758129992,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5004,
+      "steps": 300,
+      "return_value": 1039.776980065061,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5005,
+      "steps": 300,
+      "return_value": 966.7366268717387,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5006,
+      "steps": 300,
+      "return_value": 964.6653531566765,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5007,
+      "steps": 300,
+      "return_value": 1153.2993727947799,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5008,
+      "steps": 300,
+      "return_value": 991.7654816991515,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5009,
+      "steps": 300,
+      "return_value": 964.7473057761447,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5010,
+      "steps": 300,
+      "return_value": 969.7027898565636,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5011,
+      "steps": 300,
+      "return_value": 1128.9952014328858,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5012,
+      "steps": 300,
+      "return_value": 971.6849200662939,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5013,
+      "steps": 300,
+      "return_value": 791.6909916621652,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5014,
+      "steps": 300,
+      "return_value": 1217.6763182670816,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5015,
+      "steps": 300,
+      "return_value": 959.7628532872488,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5016,
+      "steps": 300,
+      "return_value": 1001.7392626878881,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5017,
+      "steps": 300,
+      "return_value": 982.8000196648579,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5018,
+      "steps": 300,
+      "return_value": 961.7282577852613,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5019,
+      "steps": 300,
+      "return_value": 983.72530285725,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    }
+  ],
+  "checkpoint_sha256": "3a330234b5dfd7cc1c607bf1bbc4c21b539018b1154c69d93f35d755c9fd443f",
+  "distribution_sha256": "1f904a379650c935a9af202a019f06e1cabe249d9d5b5e9bf1d51d5c1ee2f544"
+}

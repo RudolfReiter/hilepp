@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hilepp-recreated"
-version = "0.2.0"
+version = "0.3.0"
 description = "Recreated hierarchical RL policy wrapper for vehicle_gym — ECC 2023"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [{name = "Rudolf Reiter"}]
-dependencies = ["vehiclegym>=1.2,<2", "numpy>=1.24,<3"]
+dependencies = ["vehiclegym>=1.3,<2", "numpy>=1.24,<3"]
 
 [project.optional-dependencies]
 train = ["torch>=2.2,<3"]
@@ -18,8 +18,12 @@ gym = ["gymnasium>=1,<2"]
 dev = ["pytest>=7,<9", "matplotlib>=3.7,<4", "build>=1", "ruff>=0.9"]
 
 [project.scripts]
-hilepp-train = "hilepp.train:main"
-hilepp-evaluate = "hilepp.evaluate:main"
+hilepp-train-circuit = "hilepp.train_circuit:main"
+hilepp-evaluate-circuit = "hilepp.evaluate_circuit:main"
+hilepp-train = "hilepp.train_circuit:main"
+hilepp-train-legacy = "hilepp.train:main"
+hilepp-evaluate = "hilepp.evaluate_circuit:main"
+hilepp-evaluate-legacy = "hilepp.evaluate:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

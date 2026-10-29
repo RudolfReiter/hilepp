@@ -1,0 +1,366 @@
+{
+  "protocol": "six-car-circuit-v1",
+  "method": "HILEPP",
+  "steps": 12000,
+  "gradient_updates": 11745,
+  "track": "IMS",
+  "training_seed": 42,
+  "training_episode_seeds": [
+    0,
+    40
+  ],
+  "observations": 31,
+  "actions": 4,
+  "episode_duration_s": 60,
+  "dt": 0.2,
+  "planner": {
+    "dt": 0.2,
+    "intervals": 25,
+    "opponents": 5,
+    "speed_limit": 40.0,
+    "lateral_acceleration": 9.0,
+    "terminal_speed": 15.0,
+    "obstacle_longitudinal": 9.0,
+    "obstacle_lateral": 3.8,
+    "braking": 10.0
+  },
+  "reward": "progress speed / 200 + number of opponents behind; termination penalty -10",
+  "entropy": 0.03,
+  "discount": 0.99,
+  "learning_rate": 0.0003,
+  "hidden_layers": [
+    64,
+    64
+  ],
+  "elapsed_s": 2298.2156662080088,
+  "episodes": [
+    {
+      "episode": 0,
+      "steps": 300,
+      "return_value": 1396.770631476377,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1,
+      "steps": 300,
+      "return_value": 1382.40980436114,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 2,
+      "steps": 300,
+      "return_value": 1452.2400775429473,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 3,
+      "steps": 300,
+      "return_value": 1447.8417820326808,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 4,
+      "steps": 300,
+      "return_value": 1459.4269208327435,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 5,
+      "steps": 300,
+      "return_value": 1448.5176227883871,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 6,
+      "steps": 300,
+      "return_value": 1452.5875798146196,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 7,
+      "steps": 300,
+      "return_value": 1447.8793282928557,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 8,
+      "steps": 300,
+      "return_value": 1441.7523253915244,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 9,
+      "steps": 300,
+      "return_value": 1455.8111436952654,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 10,
+      "steps": 300,
+      "return_value": 1461.96391126925,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 11,
+      "steps": 300,
+      "return_value": 1459.02153967297,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 12,
+      "steps": 300,
+      "return_value": 1455.9883197652657,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 13,
+      "steps": 300,
+      "return_value": 1465.29263366487,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 14,
+      "steps": 300,
+      "return_value": 1468.3561389137355,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 15,
+      "steps": 300,
+      "return_value": 1468.4886919526232,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 16,
+      "steps": 300,
+      "return_value": 1455.1976822977347,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 17,
+      "steps": 300,
+      "return_value": 1472.548592833938,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 18,
+      "steps": 300,
+      "return_value": 1462.2882812100727,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 19,
+      "steps": 300,
+      "return_value": 1462.333277810545,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 20,
+      "steps": 300,
+      "return_value": 1462.4557374583633,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 21,
+      "steps": 300,
+      "return_value": 1464.4575879054487,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 22,
+      "steps": 300,
+      "return_value": 1465.4434991495566,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 23,
+      "steps": 300,
+      "return_value": 1468.5877405094402,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 24,
+      "steps": 300,
+      "return_value": 1464.4879510461892,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 25,
+      "steps": 300,
+      "return_value": 1462.3463396867364,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 26,
+      "steps": 300,
+      "return_value": 1464.458783984501,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 27,
+      "steps": 300,
+      "return_value": 1468.399445893792,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 28,
+      "steps": 300,
+      "return_value": 1465.4906140821804,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 29,
+      "steps": 300,
+      "return_value": 1459.379129823472,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 30,
+      "steps": 300,
+      "return_value": 1462.4844492389589,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 31,
+      "steps": 300,
+      "return_value": 1461.4737338246327,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 32,
+      "steps": 300,
+      "return_value": 1463.5946528765992,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 33,
+      "steps": 300,
+      "return_value": 1463.4102857026794,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 34,
+      "steps": 300,
+      "return_value": 1459.4419128851966,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 35,
+      "steps": 300,
+      "return_value": 1463.6926823910821,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 36,
+      "steps": 300,
+      "return_value": 1459.55322614157,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 37,
+      "steps": 300,
+      "return_value": 1466.6004413865078,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 38,
+      "steps": 300,
+      "return_value": 1464.4051514198438,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 39,
+      "steps": 300,
+      "return_value": 1460.6109498584667,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    }
+  ],
+  "checkpoint_sha256": "6538005fa898dce816f3e99203568efd184a3f2ebf67f6ab2075a39672eb76b8",
+  "stage_steps": 12000,
+  "speed_reference_range": [
+    20,
+    34
+  ],
+  "pretraining": null,
+  "distribution_sha256": "741b5886565311ac9ebc4266d755fed094d03c33498cfc9ea936150c9746b0e1"
+}

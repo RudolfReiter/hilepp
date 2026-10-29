@@ -130,11 +130,11 @@ class SAC:
             "actor_loss": float(actor_loss.detach()),
         }
 
-    def export(self, destination):
-        """Mean actor only: safe NumPy inference, no pickle or torch dependency."""
+    def export(self, destination, distribution=False):
+        """Safe NumPy inference; optionally retain the learned Gaussian dispersion."""
         parameters = {
             name: tensor.detach().numpy()
             for name, tensor in self.actor.state_dict().items()
-            if not name.startswith("log_std")
+            if distribution or not name.startswith("log_std")
         }
         np.savez(destination, **parameters)

@@ -8,3 +8,6 @@ dist/
 build/
 artifacts/
 docs/assets/source.zip
+
+checkpoints/circuit/*-training.pt
+checkpoints/**/*-training.pt

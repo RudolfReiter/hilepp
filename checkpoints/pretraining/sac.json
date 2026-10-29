@@ -1,0 +1,1683 @@
+{
+  "protocol": "six-car-circuit-v1",
+  "method": "SAC",
+  "steps": 12000,
+  "gradient_updates": 11745,
+  "track": "IMS",
+  "training_seed": 42,
+  "training_episode_seeds": [
+    0,
+    205
+  ],
+  "observations": 31,
+  "actions": 2,
+  "episode_duration_s": 60,
+  "dt": 0.2,
+  "planner": {
+    "dt": 0.2,
+    "intervals": 25,
+    "opponents": 5,
+    "speed_limit": 40.0,
+    "lateral_acceleration": 9.0,
+    "terminal_speed": 15.0,
+    "obstacle_longitudinal": 9.0,
+    "obstacle_lateral": 3.8,
+    "braking": 10.0
+  },
+  "reward": "progress speed / 200 + number of opponents behind; termination penalty -10",
+  "entropy": 0.03,
+  "discount": 0.99,
+  "learning_rate": 0.0003,
+  "hidden_layers": [
+    64,
+    64
+  ],
+  "elapsed_s": 2154.602156476991,
+  "episodes": [
+    {
+      "episode": 0,
+      "steps": 8,
+      "return_value": 6.991418911260651,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 1,
+      "steps": 12,
+      "return_value": 15.451352193282977,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 2,
+      "steps": 7,
+      "return_value": 4.862494324586072,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 3,
+      "steps": 8,
+      "return_value": 6.942768432815104,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 4,
+      "steps": 10,
+      "return_value": 11.152337608796131,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 5,
+      "steps": 14,
+      "return_value": 19.773472286113282,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 6,
+      "steps": 6,
+      "return_value": 2.7180907238930105,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 7,
+      "steps": 10,
+      "return_value": 11.253801172747254,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 8,
+      "steps": 7,
+      "return_value": 4.82256370520586,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 9,
+      "steps": 23,
+      "return_value": 42.266553709150365,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 10,
+      "steps": 12,
+      "return_value": 15.573679722006355,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 11,
+      "steps": 9,
+      "return_value": 9.067363781385115,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 12,
+      "steps": 7,
+      "return_value": 4.803849388749814,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 13,
+      "steps": 7,
+      "return_value": 4.832624388901648,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 14,
+      "steps": 14,
+      "return_value": 19.86056798118365,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 15,
+      "steps": 16,
+      "return_value": 23.99559108754322,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 16,
+      "steps": 7,
+      "return_value": 4.806203144946842,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 17,
+      "steps": 6,
+      "return_value": 2.729367180465535,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 18,
+      "steps": 6,
+      "return_value": 2.719135830946782,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 19,
+      "steps": 11,
+      "return_value": 13.406816377844963,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 20,
+      "steps": 7,
+      "return_value": 4.873670565531985,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 21,
+      "steps": 9,
+      "return_value": 9.046137109660593,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 22,
+      "steps": 11,
+      "return_value": 13.387266386327122,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 23,
+      "steps": 9,
+      "return_value": 9.10265599069568,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 24,
+      "steps": 7,
+      "return_value": 4.813562022386122,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 25,
+      "steps": 9,
+      "return_value": 9.070034003136332,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 26,
+      "steps": 7,
+      "return_value": 4.842545641303764,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 27,
+      "steps": 10,
+      "return_value": 11.213788326180842,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 28,
+      "steps": 11,
+      "return_value": 13.393397423089194,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 29,
+      "steps": 15,
+      "return_value": 21.961988323482373,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 30,
+      "steps": 6,
+      "return_value": 2.696956064890502,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 31,
+      "steps": 5,
+      "return_value": 0.575761532639433,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 32,
+      "steps": 19,
+      "return_value": 30.556567858101637,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 33,
+      "steps": 12,
+      "return_value": 15.257273251579205,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 34,
+      "steps": 7,
+      "return_value": 4.857309550204085,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 35,
+      "steps": 18,
+      "return_value": 27.989467173725004,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 36,
+      "steps": 7,
+      "return_value": 4.799925292023641,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 37,
+      "steps": 12,
+      "return_value": 15.528772334969402,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 38,
+      "steps": 7,
+      "return_value": 4.853644547814417,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 39,
+      "steps": 7,
+      "return_value": 4.869258720095232,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 40,
+      "steps": 9,
+      "return_value": 9.089505997081371,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 41,
+      "steps": 9,
+      "return_value": 9.107066637311986,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 42,
+      "steps": 7,
+      "return_value": 4.868539056647172,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 43,
+      "steps": 5,
+      "return_value": 0.5934929040127601,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 44,
+      "steps": 6,
+      "return_value": 2.7278684428603697,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 45,
+      "steps": 5,
+      "return_value": 0.5589603793201485,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 46,
+      "steps": 6,
+      "return_value": 2.7354953464256493,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 47,
+      "steps": 7,
+      "return_value": 4.878341159742575,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 48,
+      "steps": 5,
+      "return_value": 0.5792894072755352,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 49,
+      "steps": 6,
+      "return_value": 2.7416303048339943,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 50,
+      "steps": 5,
+      "return_value": 0.5645942526176411,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 51,
+      "steps": 5,
+      "return_value": 0.6150914168868518,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 52,
+      "steps": 5,
+      "return_value": 0.6035524695253116,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 53,
+      "steps": 6,
+      "return_value": 2.7238715224235204,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 54,
+      "steps": 10,
+      "return_value": 11.251243822730633,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 55,
+      "steps": 7,
+      "return_value": 4.90018153719974,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 56,
+      "steps": 8,
+      "return_value": 7.0320368947428165,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 57,
+      "steps": 7,
+      "return_value": 4.911183488875742,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 58,
+      "steps": 15,
+      "return_value": 22.083622251261822,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 59,
+      "steps": 5,
+      "return_value": 0.5994329992498653,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 60,
+      "steps": 8,
+      "return_value": 7.038760004483436,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 61,
+      "steps": 5,
+      "return_value": 0.5988211020108789,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 62,
+      "steps": 6,
+      "return_value": 2.754976750493153,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 63,
+      "steps": 11,
+      "return_value": 13.455158473227453,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 64,
+      "steps": 7,
+      "return_value": 4.933740667935423,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 65,
+      "steps": 9,
+      "return_value": 9.24401822857262,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 66,
+      "steps": 6,
+      "return_value": 2.7542587158655927,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 67,
+      "steps": 6,
+      "return_value": 2.768915330932531,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 68,
+      "steps": 5,
+      "return_value": 0.6084105081700208,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 69,
+      "steps": 5,
+      "return_value": 0.6123904732264887,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 70,
+      "steps": 6,
+      "return_value": 2.776831070019444,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 71,
+      "steps": 5,
+      "return_value": 0.5581434919740227,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 72,
+      "steps": 5,
+      "return_value": 0.5842957414638139,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 73,
+      "steps": 5,
+      "return_value": 0.5961786985645627,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 74,
+      "steps": 6,
+      "return_value": 2.7120971206285063,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 75,
+      "steps": 5,
+      "return_value": 0.6060856075181622,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 76,
+      "steps": 5,
+      "return_value": 0.621435777610583,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 77,
+      "steps": 6,
+      "return_value": 2.7411659476321173,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 78,
+      "steps": 5,
+      "return_value": 0.5945754023730965,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 79,
+      "steps": 5,
+      "return_value": 0.613767474756628,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 80,
+      "steps": 5,
+      "return_value": 0.596859438833361,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 81,
+      "steps": 5,
+      "return_value": 0.5847859558865371,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 82,
+      "steps": 5,
+      "return_value": 0.6239970814312823,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 83,
+      "steps": 4,
+      "return_value": -1.5221427022326797,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 84,
+      "steps": 5,
+      "return_value": 0.5508057476691723,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 85,
+      "steps": 4,
+      "return_value": -1.5276268017358259,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 86,
+      "steps": 4,
+      "return_value": -1.5310847290636271,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 87,
+      "steps": 5,
+      "return_value": 0.5803716604805578,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 88,
+      "steps": 4,
+      "return_value": -1.5237434363935103,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 89,
+      "steps": 4,
+      "return_value": -1.5257361481756107,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 90,
+      "steps": 4,
+      "return_value": -1.5303915594717807,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 91,
+      "steps": 5,
+      "return_value": 0.5530803770032611,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 92,
+      "steps": 4,
+      "return_value": -1.5310984994276735,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 93,
+      "steps": 4,
+      "return_value": -1.5261349591054962,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 94,
+      "steps": 5,
+      "return_value": 0.5710925251687913,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 95,
+      "steps": 4,
+      "return_value": -1.5207746361725807,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 96,
+      "steps": 4,
+      "return_value": -1.5317673573801018,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 97,
+      "steps": 5,
+      "return_value": 0.5503838723130352,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 98,
+      "steps": 4,
+      "return_value": -1.5274548694759797,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 99,
+      "steps": 5,
+      "return_value": 0.5412221878815267,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 100,
+      "steps": 5,
+      "return_value": 0.5536566397973148,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 101,
+      "steps": 4,
+      "return_value": -1.5253883358305416,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 102,
+      "steps": 4,
+      "return_value": -1.5262538576240452,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 103,
+      "steps": 4,
+      "return_value": -1.5284249562549457,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 104,
+      "steps": 4,
+      "return_value": -1.525754669132481,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 105,
+      "steps": 5,
+      "return_value": 0.5870349877028733,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 106,
+      "steps": 4,
+      "return_value": -1.5268148423137866,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 107,
+      "steps": 4,
+      "return_value": -1.523814676621635,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 108,
+      "steps": 5,
+      "return_value": 0.5833937125265152,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 109,
+      "steps": 5,
+      "return_value": 0.5575711492097826,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 110,
+      "steps": 5,
+      "return_value": 0.5385132546130533,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 111,
+      "steps": 4,
+      "return_value": -1.5193605913429389,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 112,
+      "steps": 5,
+      "return_value": 0.5658893059645838,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 113,
+      "steps": 5,
+      "return_value": 0.5737382023773652,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 114,
+      "steps": 5,
+      "return_value": 0.5715076240368608,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 115,
+      "steps": 5,
+      "return_value": 0.5795526791351726,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 116,
+      "steps": 5,
+      "return_value": 0.5580196441909955,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 117,
+      "steps": 5,
+      "return_value": 0.6249072165666236,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 118,
+      "steps": 5,
+      "return_value": 0.5705998512841006,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 119,
+      "steps": 5,
+      "return_value": 0.5703266367226094,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 120,
+      "steps": 5,
+      "return_value": 0.567835085958154,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 121,
+      "steps": 5,
+      "return_value": 0.5627315549128511,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 122,
+      "steps": 5,
+      "return_value": 0.5742134122017193,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 123,
+      "steps": 5,
+      "return_value": 0.55993269502427,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 124,
+      "steps": 5,
+      "return_value": 0.5773747333660655,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 125,
+      "steps": 5,
+      "return_value": 0.6080235237123999,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 126,
+      "steps": 5,
+      "return_value": 0.5966066300349162,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 127,
+      "steps": 5,
+      "return_value": 0.5958640347747846,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 128,
+      "steps": 6,
+      "return_value": 2.7323724278453563,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 129,
+      "steps": 5,
+      "return_value": 0.574423519438767,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 130,
+      "steps": 5,
+      "return_value": 0.5865071494303598,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 131,
+      "steps": 5,
+      "return_value": 0.6114920033943889,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 132,
+      "steps": 6,
+      "return_value": 2.7375380301017564,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 133,
+      "steps": 7,
+      "return_value": 4.83198562764178,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 134,
+      "steps": 6,
+      "return_value": 2.7462494906851393,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 135,
+      "steps": 5,
+      "return_value": 0.5634348999787786,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 136,
+      "steps": 8,
+      "return_value": 6.988413541574996,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 137,
+      "steps": 11,
+      "return_value": 13.422751310157762,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 138,
+      "steps": 8,
+      "return_value": 7.023295682550685,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 139,
+      "steps": 6,
+      "return_value": 2.748405621028369,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 140,
+      "steps": 24,
+      "return_value": 41.161137684365045,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 141,
+      "steps": 16,
+      "return_value": 24.17214436833804,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 142,
+      "steps": 23,
+      "return_value": 39.20205656452505,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 143,
+      "steps": 29,
+      "return_value": 51.96168931008278,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 144,
+      "steps": 13,
+      "return_value": 17.613628245022227,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 145,
+      "steps": 21,
+      "return_value": 34.84785629620058,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 146,
+      "steps": 22,
+      "return_value": 36.744331272828184,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 147,
+      "steps": 18,
+      "return_value": 28.191960535591026,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 148,
+      "steps": 39,
+      "return_value": 71.92466623738238,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 149,
+      "steps": 33,
+      "return_value": 41.60048750356802,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 150,
+      "steps": 36,
+      "return_value": 44.36070537190169,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 151,
+      "steps": 48,
+      "return_value": 90.76770911021356,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 152,
+      "steps": 19,
+      "return_value": 30.121620238504352,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 153,
+      "steps": 27,
+      "return_value": 34.86713738461178,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 154,
+      "steps": 35,
+      "return_value": 64.49540093621252,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 155,
+      "steps": 96,
+      "return_value": 236.66335990314215,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 156,
+      "steps": 55,
+      "return_value": 155.76148658138365,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 157,
+      "steps": 212,
+      "return_value": 381.44612258945233,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 158,
+      "steps": 160,
+      "return_value": 301.45840560391713,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 159,
+      "steps": 99,
+      "return_value": 253.25727483323325,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 160,
+      "steps": 163,
+      "return_value": 278.2644492123914,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 161,
+      "steps": 101,
+      "return_value": 232.63066991261033,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 162,
+      "steps": 300,
+      "return_value": 502.6933222786521,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 163,
+      "steps": 300,
+      "return_value": 558.9884236459651,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 164,
+      "steps": 300,
+      "return_value": 566.8645772336452,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 165,
+      "steps": 300,
+      "return_value": 687.2064147448147,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 166,
+      "steps": 300,
+      "return_value": 794.6256546512991,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 167,
+      "steps": 300,
+      "return_value": 713.8584025233838,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 168,
+      "steps": 110,
+      "return_value": 242.3769552826627,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 169,
+      "steps": 140,
+      "return_value": 295.3442863125602,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 170,
+      "steps": 300,
+      "return_value": 820.638382274584,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 171,
+      "steps": 240,
+      "return_value": 653.3492051405128,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 172,
+      "steps": 300,
+      "return_value": 921.6958933614528,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 173,
+      "steps": 37,
+      "return_value": 102.44738664042377,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 174,
+      "steps": 300,
+      "return_value": 956.1326935899002,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 175,
+      "steps": 300,
+      "return_value": 1116.2784965829119,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 176,
+      "steps": 300,
+      "return_value": 1058.8732918361513,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 177,
+      "steps": 300,
+      "return_value": 1042.9860264310387,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 178,
+      "steps": 300,
+      "return_value": 959.6670608261992,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 179,
+      "steps": 300,
+      "return_value": 1016.9393490661014,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 180,
+      "steps": 300,
+      "return_value": 1182.8568755650235,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 181,
+      "steps": 300,
+      "return_value": 1017.1372902123774,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 182,
+      "steps": 300,
+      "return_value": 1010.3534556779204,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 183,
+      "steps": 300,
+      "return_value": 1083.2123488856791,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 184,
+      "steps": 27,
+      "return_value": 62.78888187539627,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 185,
+      "steps": 300,
+      "return_value": 1260.8667513031505,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 186,
+      "steps": 300,
+      "return_value": 1164.8216583225287,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 187,
+      "steps": 27,
+      "return_value": 64.73098243176356,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 188,
+      "steps": 300,
+      "return_value": 1299.5782393671307,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 189,
+      "steps": 300,
+      "return_value": 1328.0357591951904,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 190,
+      "steps": 300,
+      "return_value": 1281.9003545609658,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 191,
+      "steps": 300,
+      "return_value": 1424.3209599458164,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 192,
+      "steps": 236,
+      "return_value": 1143.9471476029662,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 193,
+      "steps": 194,
+      "return_value": 927.3554141587886,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 194,
+      "steps": 300,
+      "return_value": 1327.108460156717,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 195,
+      "steps": 214,
+      "return_value": 971.5661686197142,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 196,
+      "steps": 249,
+      "return_value": 1136.223151208937,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 197,
+      "steps": 13,
+      "return_value": 18.00971950445141,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 198,
+      "steps": 27,
+      "return_value": 68.10313724410508,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 199,
+      "steps": 300,
+      "return_value": 1481.0157639991262,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 200,
+      "steps": 13,
+      "return_value": 18.024728297708176,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 201,
+      "steps": 300,
+      "return_value": 1467.4503971357208,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 202,
+      "steps": 21,
+      "return_value": 43.727949157471,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 203,
+      "steps": 21,
+      "return_value": 43.67336232860192,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    },
+    {
+      "episode": 204,
+      "steps": 22,
+      "return_value": 45.89655003553999,
+      "failed": false,
+      "collision": true,
+      "track_exit": false
+    }
+  ],
+  "checkpoint_sha256": "607558f5b99ab543cc61695d523a7c49bc65acef171f3b36c4a913483915623f",
+  "stage_steps": 12000,
+  "speed_reference_range": null,
+  "pretraining": null,
+  "distribution_sha256": "1259413466cf76d1cf769e2ea8bf58711bf209537252532e15b99274d8846c10"
+}
