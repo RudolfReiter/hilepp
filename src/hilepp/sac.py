@@ -9,6 +9,7 @@ import numpy as np
 import torch
 from torch import nn
 from torch.distributions import Normal
+from .encoders import DeepSetEncoder, SetCritic
 
 
 def mlp(inputs, outputs, width=64):
@@ -22,10 +23,12 @@ def mlp(inputs, outputs, width=64):
 
 
 class Actor(nn.Module):
-    def __init__(self, observations=22, actions=2, width=64):
+    def __init__(self, observations=22, actions=2, width=64, deep_sets=False):
         super().__init__()
+        self.encoder = DeepSetEncoder() if deep_sets else nn.Identity()
+        inputs = self.encoder.output_features if deep_sets else observations
         self.body = nn.Sequential(
-            nn.Linear(observations, width), nn.ReLU(), nn.Linear(width, width), nn.ReLU()
+            nn.Linear(inputs, width), nn.ReLU(), nn.Linear(width, width), nn.ReLU()
         )
         self.mean = nn.Linear(width, actions)
         self.log_std = nn.Linear(width, actions)
@@ -36,7 +39,7 @@ class Actor(nn.Module):
         nn.init.constant_(self.log_std.bias, -1.0)
 
     def forward(self, observations, deterministic=False):
-        hidden = self.body(observations)
+        hidden = self.body(self.encoder(observations))
         mean = self.mean(hidden)
         if deterministic:
             return mean.tanh(), None
@@ -83,11 +86,14 @@ class SAC:
         discount=0.99,
         polyak=0.005,
         entropy=0.1,
+        deep_sets=False,
     ):
         torch.manual_seed(seed)
         torch.set_num_threads(1)
-        self.actor = Actor(observations, actions)
-        self.critics = nn.ModuleList([mlp(observations + actions, 1) for _ in range(2)])
+        self.actor = Actor(observations, actions, deep_sets=deep_sets)
+        self.critics = nn.ModuleList(
+            [SetCritic(actions) if deep_sets else mlp(observations + actions, 1) for _ in range(2)]
+        )
         self.targets = deepcopy(self.critics).requires_grad_(False)
         self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), lr=learning_rate)
         self.critic_optimizer = torch.optim.Adam(self.critics.parameters(), lr=learning_rate)

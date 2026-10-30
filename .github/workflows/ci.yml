@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: RudolfReiter/vehicle_gym
-          ref: f0b3106e82ada7e27ee045dadf86b1f1589df87b
+          ref: 27d5b5cc5ee5fbd25c4eecddd3c3b8884eb5d3df
           path: foundation
       - uses: actions/setup-python@v5
         with:
@@ -29,5 +29,5 @@ jobs:
         working-directory: project
       - run: node scripts/check_interactions.mjs
         working-directory: project
-      - run: python scripts/build_site.py && python scripts/check_data.py && python scripts/check_dynamics.py
+      - run: python scripts/build_site.py && python scripts/check_data.py && python scripts/check_dynamics.py && python scripts/check_policy.py
         working-directory: project

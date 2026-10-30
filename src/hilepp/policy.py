@@ -21,29 +21,45 @@ def limit_lateral_reference(reference, measured_lateral, max_offset=1.0):
     )
 
 
+def _load_actor(checkpoint, distribution=False):
+    with np.load(Path(checkpoint), allow_pickle=False) as data:
+        parameters = {key: data[key].copy() for key in data.files}
+    layers = ["body.0", "body.2", "mean"] + (["log_std"] if distribution else [])
+    deep_sets = any(key.startswith("encoder.") for key in parameters)
+    if deep_sets:
+        layers += ["encoder.phi.0", "encoder.phi.2", "encoder.rho.0", "encoder.rho.2"]
+    expected = {f"{layer}.{kind}" for layer in layers for kind in ["weight", "bias"]}
+    if set(parameters) != expected or not all(np.isfinite(v).all() for v in parameters.values()):
+        raise ValueError("Invalid policy checkpoint")
+    return parameters, deep_sets
+
+
+def _hidden(parameters, observation, deep_sets):
+    def layer(value, prefix):
+        return np.maximum(
+            value @ parameters[prefix + ".weight"].T + parameters[prefix + ".bias"], 0
+        )
+
+    value = np.asarray(observation, dtype=np.float32)
+    if deep_sets:
+        extra = value.shape[-1] - 11
+        if extra < 0 or extra % 4:
+            raise ValueError("Expected 11 context features and four features per opponent")
+        opponents = value[..., 11:].reshape(*value.shape[:-1], extra // 4, 4)
+        pooled = layer(layer(opponents, "encoder.phi.0"), "encoder.phi.2").sum(axis=-2)
+        encoded = layer(layer(pooled, "encoder.rho.0"), "encoder.rho.2")
+        value = np.concatenate((value[..., :11], encoded), axis=-1)
+    return layer(layer(value, "body.0"), "body.2")
+
+
 class NumpyPolicy:
+    """Mean actor inference, including the learned Deep Sets encoder when present."""
+
     def __init__(self, checkpoint):
-        with np.load(Path(checkpoint), allow_pickle=False) as data:
-            self.parameters = {key: data[key].copy() for key in data.files}
-        expected = {
-            "body.0.weight",
-            "body.0.bias",
-            "body.2.weight",
-            "body.2.bias",
-            "mean.weight",
-            "mean.bias",
-        }
-        if set(self.parameters) != expected or not all(
-            np.isfinite(v).all() for v in self.parameters.values()
-        ):
-            raise ValueError("Invalid policy checkpoint")
+        self.parameters, self.deep_sets = _load_actor(checkpoint)
 
     def __call__(self, observation):
-        value = np.asarray(observation)
-        for layer in ["body.0", "body.2"]:
-            value = np.maximum(
-                value @ self.parameters[layer + ".weight"].T + self.parameters[layer + ".bias"], 0
-            )
+        value = _hidden(self.parameters, observation, self.deep_sets)
         return np.tanh(value @ self.parameters["mean.weight"].T + self.parameters["mean.bias"])
 
 
@@ -68,28 +84,14 @@ class NumpyGaussianPolicy:
     """
 
     def __init__(self, checkpoint, seed=0):
-        with np.load(Path(checkpoint), allow_pickle=False) as data:
-            self.parameters = {key: data[key].copy() for key in data.files}
-        expected = {
-            f"{layer}.{kind}"
-            for layer in ["body.0", "body.2", "mean", "log_std"]
-            for kind in ["weight", "bias"]
-        }
-        if set(self.parameters) != expected or not all(
-            np.isfinite(value).all() for value in self.parameters.values()
-        ):
-            raise ValueError("Invalid Gaussian actor checkpoint")
+        self.parameters, self.deep_sets = _load_actor(checkpoint, distribution=True)
         self.reset_rng(seed)
 
     def reset_rng(self, seed):
         self.rng = np.random.default_rng(seed)
 
     def __call__(self, observation):
-        value = np.asarray(observation)
-        for layer in ["body.0", "body.2"]:
-            value = np.maximum(
-                value @ self.parameters[layer + ".weight"].T + self.parameters[layer + ".bias"], 0
-            )
+        value = _hidden(self.parameters, observation, self.deep_sets)
         mean = value @ self.parameters["mean.weight"].T + self.parameters["mean.bias"]
         log_std = np.clip(
             value @ self.parameters["log_std.weight"].T + self.parameters["log_std.bias"], -5, 1

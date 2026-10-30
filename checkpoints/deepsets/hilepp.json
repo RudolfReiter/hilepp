@@ -1,0 +1,362 @@
+{
+  "protocol": "six-car-circuit-v2",
+  "method": "HILEPP",
+  "steps": 12000,
+  "gradient_updates": 11745,
+  "stage_steps": 12000,
+  "speed_reference_range": [
+    20,
+    28.0
+  ],
+  "pretraining": null,
+  "replay_reset_at_stage_start": false,
+  "tracks": [
+    "Oval",
+    "IMS"
+  ],
+  "architecture": "deep-sets-sum-v1",
+  "encoder": {
+    "context_features": 11,
+    "opponent_features": 4,
+    "phi": [
+      4,
+      64,
+      32
+    ],
+    "pooling": "sum",
+    "rho": [
+      32,
+      32,
+      32
+    ],
+    "concatenated_features": 43,
+    "actor_and_critics": true
+  },
+  "vehicle_limits": [
+    {
+      "speed_min": 0,
+      "speed_max": 32,
+      "longitudinal_min": -8.0,
+      "longitudinal_max": 5.0,
+      "lateral_min": -9.0,
+      "lateral_max": 9.0
+    },
+    {
+      "speed_min": 0,
+      "speed_max": 25,
+      "longitudinal_min": -5.0,
+      "longitudinal_max": 2.8,
+      "lateral_min": -5.5,
+      "lateral_max": 5.5
+    },
+    {
+      "speed_min": 2,
+      "speed_max": 29,
+      "longitudinal_min": -6.5,
+      "longitudinal_max": 4.0,
+      "lateral_min": -7.0,
+      "lateral_max": 7.5
+    },
+    {
+      "speed_min": 0,
+      "speed_max": 30,
+      "longitudinal_min": -9.0,
+      "longitudinal_max": 3.5,
+      "lateral_min": -8.0,
+      "lateral_max": 8.0
+    },
+    {
+      "speed_min": 4,
+      "speed_max": 36,
+      "longitudinal_min": -10.0,
+      "longitudinal_max": 6.0,
+      "lateral_min": -11.0,
+      "lateral_max": 10.5
+    },
+    {
+      "speed_min": 2,
+      "speed_max": 34,
+      "longitudinal_min": -7.5,
+      "longitudinal_max": 5.5,
+      "lateral_min": -9.5,
+      "lateral_max": 10.0
+    }
+  ],
+  "training_seed": 52,
+  "training_episode_seeds": [
+    1000,
+    1027
+  ],
+  "observations": 31,
+  "actions": 4,
+  "episode_duration_s": 90.0,
+  "dt": 0.2,
+  "planner": {
+    "dt": 0.2,
+    "intervals": 25,
+    "opponents": 5,
+    "speed_limit": 40.0,
+    "lateral_acceleration": 9.0,
+    "terminal_speed": 15.0,
+    "obstacle_longitudinal": 9.0,
+    "obstacle_lateral": 3.8,
+    "braking": 10.0
+  },
+  "reward": "progress speed / 200 + number of opponents behind; termination penalty -10",
+  "entropy": 0.03,
+  "discount": 0.99,
+  "learning_rate": 0.0003,
+  "hidden_layers": [
+    64,
+    64
+  ],
+  "elapsed_s": 2792.963859684998,
+  "stage_elapsed_s": 2792.963860947988,
+  "episodes": [
+    {
+      "episode": 1000,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 688.8747271384632,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1001,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 465.5041606375394,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1002,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 517.3647009091777,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1003,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 101.48801517945311,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1004,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 529.5050552413118,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1005,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1490.403626494245,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1006,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 590.5055709294988,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1007,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1257.7621193483628,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1008,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 662.7309353097196,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1009,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 512.1443763389425,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1010,
+      "track": "Oval",
+      "steps": 40,
+      "return_value": 74.72235914268873,
+      "failed": false,
+      "collision": false,
+      "track_exit": true
+    },
+    {
+      "episode": 1011,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1306.964207539354,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1012,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 588.1280435679334,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1013,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 513.3734200835274,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1014,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 660.3792289710823,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1015,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 770.5932095462019,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1016,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 581.220176313914,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1017,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1229.0156841207486,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1018,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 613.7491302290243,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1019,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 842.7110064766028,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1020,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 669.6716548944547,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1021,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 770.7054535814991,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1022,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 897.0166920002829,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1023,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1162.6618108419405,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1024,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 1740.6243225161086,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1025,
+      "track": "IMS",
+      "steps": 450,
+      "return_value": 1485.983225033357,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    },
+    {
+      "episode": 1026,
+      "track": "Oval",
+      "steps": 450,
+      "return_value": 877.4301990461378,
+      "failed": false,
+      "collision": false,
+      "track_exit": false
+    }
+  ],
+  "distribution_sha256": "f551809feabc67ad7f8f146c68ba649db81e62119689f3d7f9000da7f839f219",
+  "checkpoint_sha256": "04f039f6de4212c90115191af7e2fc2ac0f9442f0e7a0a3cba998b7b8e10af4f"
+}

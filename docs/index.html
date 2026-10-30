@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</title>
 <meta name="description" content="Recorded six-car MPC races on real circuits, with current planning horizons and reproducible evaluation.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 <main>
 <header>
-<div class="publication">HILEPP · Recreated ECC 2023 experiment</div>
+<div class="publication">HILEPP · ECC 2023 · Recreated Deep Sets experiment</div>
 <h1>A Hierarchical Approach for Strategic Motion Planning in Autonomous Racing</h1>
 <p class="authors">Rudolf Reiter · Jasper Hoffmann · Joschka Boedecker · Moritz Diehl</p>
 <p class="abstract">A reinforcement learning policy sets the references and cost weights of one MPC controller. Five independent MPC opponents respond to the evolving race.</p>
@@ -60,7 +60,7 @@
 <canvas id="scene" aria-label="Six-car race on the selected circuit. Use the adjacent timing table and timeline for the recorded state.">
 </canvas>
 <div class="stage-label">
-<span id="circuit-name">IMS</span>
+<span id="circuit-name">Oval</span>
 <span id="race-clock">0:00.0</span>
 <span id="race-state">Loading recorded race…</span>
 </div>
@@ -97,6 +97,8 @@
 </select>
 </label>
 </div>
+<p class="note race-summary" id="race-summary">
+</p>
 <div class="event-nav">
 <label>Jump to a recorded pass <select id="event">
 <option value="0">Race start</option>
@@ -150,7 +152,7 @@
 </section>
 <section id="experiment">
 <h2>Experimental protocol</h2>
-<p>Six vehicles share one periodic, curvilinear track model and identical vehicle dynamics. Each MPC receives all five measured opponent states, solves its own finite-horizon problem, then applies only the first force and steering-rate input. All six vehicles advance simultaneously. Opponent predictions are assumptions inside each optimization, not their actual future controls.</p>
+<p>Six vehicles share a periodic, curvilinear track model and vehicle equations, with different speed, longitudinal acceleration and cornering limits. Each MPC receives all five measured opponent states, solves its own finite-horizon problem, then applies only the first force and steering-rate input. All six vehicles advance simultaneously. Opponent predictions are assumptions inside each optimization, not their actual future controls.</p>
 <table>
 <thead>
 <tr>
@@ -174,6 +176,27 @@
 </tbody>
 </table>
 <p>Every opponent uses MPC in every comparison. HILEPP’s maximum speed reference and the fixed MPC ego target are both 28 m/s; two opponents target 31 and 29 m/s. The ego MPC horizon changes with its references and weights. The dashed obstacle trajectories update at each control step; after a pass, the follower is assumed able to brake. This feasibility assumption does not assert that the follower intends to brake.</p>
+<h3>Permutation-invariant observations</h3>
+<p>Each opponent’s relative progress, lateral position, speed and heading error enters the same learned encoder φ. Sum pooling removes dependence on the order of the cars. A learned mapping ρ produces the set embedding, which is concatenated with seven track-curvature samples and four ego states:</p>
+<p class="equation">z = [track, ego, ρ(Σᵢ φ(opponentᵢ))]</p>
+<p>The SAC actor and each of its two critics learn their own Deep Sets encoder. The actor outputs the four HILEPP-II MPC parameters; direct SAC uses the same observation architecture and outputs two actuator commands.</p>
+<h3>Vehicle envelopes</h3>
+<p>Limits belong to the selected recording. Longitudinal acceleration is constrained directly, including drag. Speed and lateral acceleration use the MPC’s soft constraints; a positive minimum speed is therefore relaxable when yielding. The direct SAC baseline uses actuator saturation and has no MPC state constraints.</p>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Car</th>
+<th>Speed min … max · m/s</th>
+<th>Longitudinal min … max · m/s²</th>
+<th>Lateral min … max · m/s²</th>
+</tr>
+</thead>
+<tbody id="vehicle-limits">
+</tbody>
+</table>
+</div>
+<p>The synthetic oval is a 125 m × 80 m semi-axis ellipse, approximately 650 m per lap. Its 240-second races include repeated encounters and lap traffic. IMS and Sepang use the same circuit datasets as vehicle_gym.</p>
 <div class="protocol" id="protocol">
 </div>
 <details>
@@ -187,9 +210,9 @@
 <h2>Recorded evaluation <span id="results-mode">
 </span>
 </h2>
-<p id="evaluation-note">Car 01 is the ego in the table. The actor-action selector compares seeded samples from the full learned SAC policy with its deterministic mean action; MPC is unchanged. All published seeds are shown, including early terminations. Finishing position is measured at the recorded end time; it is not comparable across different survival times.</p>
+<p id="evaluation-note">Car 01 is the ego in the table. The actor-action selector compares seeded samples from the full learned SAC policy with its deterministic mean action; MPC is unchanged. All published seeds are shown, including early terminations. Finishing position is measured at the recorded end time; it is not comparable across different survival times. Peak speed and lateral-acceleration excess measure departures from the ego’s configured upper speed and signed lateral bounds at recorded control instants. Completing a race does not imply satisfying every soft constraint.</p>
 <figure class="evaluation-figure">
-<img id="results-figure" width="1100" height="620" src="assets/evaluation-sampled.svg" alt="Individual evaluation seeds: recorded duration and ego progress on IMS and Sepang. Crosses denote early terminations.">
+<img id="results-figure" width="1100" height="930" src="assets/evaluation-sampled.svg" alt="Individual evaluation seeds: recorded duration and ego progress on the oval, IMS and Sepang. Crosses denote early terminations.">
 <figcaption>One point per seed. A cross marks an early termination by any vehicle.</figcaption>
 </figure>
 <div class="table-scroll">
@@ -203,6 +226,8 @@
 <th>Ego progress</th>
 <th>Ego position</th>
 <th>Ego passes</th>
+<th>Peak speed excess</th>
+<th>Peak lateral excess</th>
 <th>Outcome</th>
 </tr>
 </thead>
@@ -219,11 +244,11 @@
 </p>
 </footer>
 </main>
-<script src="data/manifest.js">
+<script src="data/manifest.js?v=2">
 </script>
-<script src="scene.js">
+<script src="scene.js?v=2">
 </script>
-<script src="app.js">
+<script src="app.js?v=2">
 </script>
 </body>
 </html>

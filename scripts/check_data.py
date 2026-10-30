@@ -4,11 +4,13 @@ import gzip
 import json
 from pathlib import Path
 import numpy as np
+from vehicle_models.model_kinematic import KinematicModelParameters
 
 root = Path(__file__).resolve().parents[1]
 manifest = json.loads((root / "docs/data/manifest.json").read_text())
-assert manifest["protocol"] == "six-car-circuit-v1"
+assert manifest["protocol"] == "six-car-circuit-v2"
 assert len(manifest["evaluation"]) == len(manifest["runs"])
+matched = {}
 for entry, row in zip(manifest["runs"], manifest["evaluation"]):
     run = json.loads(gzip.decompress((root / "docs/data" / entry["file"]).read_bytes()))
     assert run["method"] == entry["method"] == row["method"]
@@ -18,8 +20,60 @@ for entry, row in zip(manifest["runs"], manifest["evaluation"]):
     if entry.get("execution") and run["method"] != "MPC":
         assert run["execution"]["mode"] == entry["execution"]
     assert run["metrics"]["mpc_solves"] == (5 if run["method"] == "SAC" else 6) * len(run["frames"])
+    assert len({v["limits"]["speed_max"] for v in run["vehicles"]}) > 1
+    assert len({v["limits"]["longitudinal_max"] for v in run["vehicles"]}) > 1
+    assert np.isclose(run["metrics"]["laps"], run["metrics"]["progress_m"] / run["track"]["length"])
+    assert run["metrics"]["total_passes"] == sum(e["kind"] == "pass" for e in run["events"])
     states = np.asarray(run["states"])
     assert states.shape[1:] == (6, 5) and np.isfinite(states).all()
+    key = (entry["track"], entry["seed"])
+    first_opponents = np.asarray(run["frames"][0]["commands"])[1:]
+    opponent_inputs = [
+        (plan["opponents"], plan["modes"], reference, vehicle["limits"])
+        for plan, reference, vehicle in zip(
+            run["frames"][0]["plans"][1:],
+            run["frames"][0]["references"][1:],
+            run["vehicles"][1:],
+        )
+    ]
+    if key in matched:
+        np.testing.assert_array_equal(states[0], matched[key][0])
+        assert opponent_inputs == matched[key][2], "Opponent optimization inputs differ"
+        # Nonlinear solves need not return bit-identical commands after reset.
+        # Compare physical units: 0.1 N and 0.0001 rad/s, not one tolerance
+        # for quantities with very different scales.
+        np.testing.assert_allclose(first_opponents[:, 0], matched[key][1][:, 0], atol=0.1, rtol=0)
+        np.testing.assert_allclose(first_opponents[:, 1], matched[key][1][:, 1], atol=1e-4, rtol=0)
+    else:
+        matched[key] = (states[0], first_opponents, opponent_inputs)
+
+    parameters = KinematicModelParameters()
+    commands = np.asarray(
+        [frame["commands"] for frame in run["frames"] if frame["applied"]]
+    ).reshape(-1, 6, 2)
+    speed = states[: len(commands), :, 3]
+    resistance = (
+        0.5 * parameters.drag_force_coeff * parameters.drag_area_head * 1.29 * speed**2
+        + parameters.mass * parameters.roll_force_coeff * 9.81
+    )
+    acceleration = (commands[:, :, 0] - resistance) / parameters.mass
+    lower = np.array([v["limits"]["longitudinal_min"] for v in run["vehicles"]])
+    upper = np.array([v["limits"]["longitudinal_max"] for v in run["vehicles"]])
+    assert np.all(acceleration >= lower - 0.025), "Applied braking exceeds the recorded envelope"
+    assert np.all(acceleration <= upper + 0.025), (
+        "Applied acceleration exceeds the recorded envelope"
+    )
+    for i, vehicle in enumerate(run["vehicles"]):
+        lateral = (
+            states[:, i, 3] ** 2
+            * np.tan(states[:, i, 4])
+            / (parameters.length_front + parameters.length_rear)
+        )
+        limits = vehicle["limits"]
+        excess = max(
+            0, lateral.max() - limits["lateral_max"], limits["lateral_min"] - lateral.min()
+        )
+        assert np.isclose(run["metrics"]["observed_envelopes"][i]["lateral_excess"], excess)
     assert np.isclose(run["metrics"]["duration_s"], (len(states) - 1) * run["dt"])
     assert len(run["frames"]) in (len(states) - 1, len(states))
     assert all(v["controller"] == "MPC" for v in run["vehicles"][1:])
